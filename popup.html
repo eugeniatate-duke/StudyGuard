@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>StudyGuard settings</title>
+    <link rel="stylesheet" href="popup.css">
   </head>
 
   <body>
@@ -11,17 +12,20 @@
       <h1>StudyGuard</h1>
       <p>Settings for your AI study companion.</p>
 
-      <!-- Disabled until we implement saving and applying settings. -->
       <label>
+        <!-- JavaScript enables this after loading the saved setting. -->
         <input id="study-mode" type="checkbox" disabled>
         Enable study mode
       </label>
 
-      <p>Study mode controls will be available in a future update.</p>
+      <p id="status" role="status">Loading settings...</p>
+
       <p>
-        When implemented, study prompts will appear beside the
-        input on supported AI chat websites.
+        This setting is saved on this device.
+        Inline study prompts are still under development.
       </p>
     </main>
+
+    <script src="popup.js"></script>
   </body>
 </html>

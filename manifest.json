@@ -3,6 +3,7 @@
   "name": "StudyGuard",
   "version": "0.1.0",
   "description": "Encourages students to attempt a problem before seeking AI assistance.",
+  "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Open StudyGuard"
