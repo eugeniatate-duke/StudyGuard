@@ -1,0 +1,10 @@
+# macOS metadata
+.DS_Store
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies, if we add them later
+node_modules/
