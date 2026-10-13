@@ -1,0 +1,39 @@
+/* Include padding and borders within an element's defined width. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 320px;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #20332b;
+  background-color: #f7faf8;
+}
+
+main {
+  padding: 20px;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+p {
+  margin: 0 0 16px;
+}
+
+/* Arrange the checkbox and its description in one row. */
+label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccd9d1;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
