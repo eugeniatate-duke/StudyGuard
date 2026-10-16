@@ -35,7 +35,91 @@
     note.textContent =
       "Optional. This draft clears when you switch chats, refresh, or turn study mode off.";
 
-    panel.append(heading, label, attempt, note);
+    // panel.append(heading, label, attempt, note);
+    const prepareButton = document.createElement("button");
+    prepareButton.type = "button";
+    prepareButton.textContent = "Prepare a hint request";
+
+    const status = document.createElement("p");
+    status.id = "studyguard-hint-status";
+    status.setAttribute("role", "status");
+
+    const previewSection = document.createElement("div");
+    previewSection.id = "studyguard-preview-section";
+    previewSection.hidden = true;
+
+    const previewLabel = document.createElement("label");
+    previewLabel.htmlFor = "studyguard-preview";
+    previewLabel.textContent = "Review your hint request";
+
+    const preview = document.createElement("textarea");
+    preview.id = "studyguard-preview";
+    preview.rows = 6;
+
+    previewSection.append(previewLabel, preview);
+
+    prepareButton.addEventListener("click", () => {
+      // Use the same visibility check that fixed our navigation issue.
+      const chatInput = [...document.querySelectorAll(inputSelector)].find(
+        (candidate) => {
+          const rect = candidate.getBoundingClientRect();
+          const style = getComputedStyle(candidate);
+
+          return (
+            rect.width > 0 &&
+            rect.height > 0 &&
+            style.visibility !== "hidden" &&
+            style.visibility !== "collapse"
+          );
+        }
+      );
+
+      if (!chatInput) {
+        previewSection.hidden = true;
+        preview.value = "";
+        status.textContent = "Could not find the chat input.";
+        return;
+      }
+
+      // innerText reads the text shown inside the editable chat input.
+      const question = chatInput.innerText.trim();
+      const studentAttempt = attempt.value.trim();
+
+      if (!question) {
+        previewSection.hidden = true;
+        preview.value = "";
+        status.textContent = "Type your question in ChatGPT’s input first.";
+        return;
+      }
+
+      // Joining separate lines keeps the generated prompt readable.
+      preview.value = [
+        "Help me learn by giving one useful hint at a time.",
+        "Do not provide the complete solution or final answer yet.",
+        "If my attempt contains a mistake, guide me toward noticing it.",
+        "End with one question or small next step for me to try.",
+        "",
+        "Problem:",
+        question,
+        "",
+        "My attempt or sticking point:",
+        studentAttempt || "I’m not sure how to start. Give me a starting hint.",
+      ].join("\n");
+
+      previewSection.hidden = false;
+      status.textContent =
+        "Preview ready. Nothing has been sent. You can edit it below.";
+    });
+
+    panel.append(
+      heading,
+      label,
+      attempt,
+      note,
+      prepareButton,
+      status,
+      previewSection
+    );
     return panel;
   }
 
@@ -78,6 +162,9 @@
 
     if (panel.dataset.conversationPath !== currentPath) {
       panel.querySelector("#studyguard-attempt").value = "";
+      panel.querySelector("#studyguard-preview").value = "";
+      panel.querySelector("#studyguard-preview-section").hidden = true;
+      panel.querySelector("#studyguard-hint-status").textContent = "";
       panel.dataset.conversationPath = currentPath;
     }
 
