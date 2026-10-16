@@ -18,16 +18,20 @@
 
     const heading = document.createElement("h2");
     heading.textContent = "StudyGuard";
+    const instructions = document.createElement("p");
+    instructions.id = "studyguard-instructions";
+    instructions.textContent =
+      "Write your question in ChatGPT’s message box below. Use this space for your own thinking.";
 
     const label = document.createElement("label");
     label.htmlFor = "studyguard-attempt";
-    label.textContent = "What have you tried—or where are you stuck?";
+    label.textContent = "Your attempt or sticking point (optional)";
 
     const attempt = document.createElement("textarea");
     attempt.id = "studyguard-attempt";
     attempt.rows = 3;
     attempt.placeholder =
-      "Write your initial reasoning, or describe what you don't understand.";
+      "Example: I think I should add the numbers, but I’m unsure what comes next.";
     attempt.setAttribute("aria-describedby", "studyguard-attempt-note");
 
     const note = document.createElement("p");
@@ -63,7 +67,7 @@
 
     const previewLabel = document.createElement("label");
     previewLabel.htmlFor = "studyguard-preview";
-    previewLabel.textContent = "Editable hint request";
+    previewLabel.textContent = "Request to copy into ChatGPT (editable)";
 
     const preview = document.createElement("textarea");
     preview.id = "studyguard-preview";
@@ -165,6 +169,7 @@
 
     panel.append(
       heading,
+      instructions,
       label,
       attempt,
       note,
