@@ -56,7 +56,38 @@
     preview.id = "studyguard-preview";
     preview.rows = 6;
 
-    previewSection.append(previewLabel, preview);
+    // previewSection.append(previewLabel, preview);
+    const copyButton = document.createElement("button");
+    copyButton.type = "button";
+    copyButton.textContent = "Copy hint request";
+
+    copyButton.addEventListener("click", async () => {
+      // Read the current preview, including any edits the student made.
+      const request = preview.value.trim();
+
+      if (!request) {
+        status.textContent = "The preview is empty. Prepare a request first.";
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(request);
+
+        status.textContent =
+          "Copied. Paste it into ChatGPT’s input, review it, then send.";
+      } catch (error) {
+        // Offer a manual alternative if Chrome blocks clipboard access.
+        preview.focus();
+        preview.select();
+
+        status.textContent =
+          "Automatic copying was blocked. The preview is selected; press Cmd+C on Mac or Ctrl+C on Windows.";
+
+        console.error("StudyGuard could not copy the request:", error);
+      }
+    });
+
+    previewSection.append(previewLabel, preview, copyButton);
 
     prepareButton.addEventListener("click", () => {
       // Use the same visibility check that fixed our navigation issue.
