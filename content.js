@@ -44,17 +44,31 @@
     status.id = "studyguard-hint-status";
     status.setAttribute("role", "status");
 
-    const previewSection = document.createElement("div");
+    // const previewSection = document.createElement("div");
+    // previewSection.id = "studyguard-preview-section";
+    // previewSection.hidden = true;
+
+    // A native expandable section provides keyboard-accessible controls.
+    const previewSection = document.createElement("details");
     previewSection.id = "studyguard-preview-section";
     previewSection.hidden = true;
 
+    const previewSummary = document.createElement("summary");
+    previewSummary.textContent = "Review and copy hint request";
+
+    const previewHelp = document.createElement("p");
+    previewHelp.id = "studyguard-preview-help";
+    previewHelp.textContent =
+      "This is a snapshot. If you change your question or attempt, prepare again. Preparing again replaces your preview edits.";
+
     const previewLabel = document.createElement("label");
     previewLabel.htmlFor = "studyguard-preview";
-    previewLabel.textContent = "Review your hint request";
+    previewLabel.textContent = "Editable hint request";
 
     const preview = document.createElement("textarea");
     preview.id = "studyguard-preview";
     preview.rows = 6;
+    preview.setAttribute("aria-describedby", "studyguard-preview-help");
 
     // previewSection.append(previewLabel, preview);
     const copyButton = document.createElement("button");
@@ -87,7 +101,13 @@
       }
     });
 
-    previewSection.append(previewLabel, preview, copyButton);
+    previewSection.append(
+      previewSummary,
+      previewHelp,
+      previewLabel,
+      preview,
+      copyButton
+    );
 
     prepareButton.addEventListener("click", () => {
       // Use the same visibility check that fixed our navigation issue.
@@ -138,6 +158,7 @@
       ].join("\n");
 
       previewSection.hidden = false;
+      previewSection.open = true;
       status.textContent =
         "Preview ready. Nothing has been sent. You can edit it below.";
     });
