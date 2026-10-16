@@ -11,16 +11,31 @@
   function createPanel() {
     const panel = document.createElement("aside");
     panel.id = panelId;
-    panel.setAttribute("aria-label", "StudyGuard study reminder");
+    panel.setAttribute("aria-label", "StudyGuard study support");
+
+    // Remember which conversation this panel belongs to.
+    panel.dataset.conversationPath = window.location.pathname;
 
     const heading = document.createElement("h2");
     heading.textContent = "StudyGuard";
 
-    const reminder = document.createElement("p");
-    reminder.textContent =
-      "Before asking AI, what have you tried—or where are you stuck?";
+    const label = document.createElement("label");
+    label.htmlFor = "studyguard-attempt";
+    label.textContent = "What have you tried—or where are you stuck?";
 
-    panel.append(heading, reminder);
+    const attempt = document.createElement("textarea");
+    attempt.id = "studyguard-attempt";
+    attempt.rows = 3;
+    attempt.placeholder =
+      "Write your initial reasoning, or describe what you don't understand.";
+    attempt.setAttribute("aria-describedby", "studyguard-attempt-note");
+
+    const note = document.createElement("p");
+    note.id = "studyguard-attempt-note";
+    note.textContent =
+      "Optional. This draft clears when you switch chats, refresh, or turn study mode off.";
+
+    panel.append(heading, label, attempt, note);
     return panel;
   }
 
@@ -57,6 +72,14 @@
     }
 
     const panel = existingPanel ?? createPanel();
+
+    // Clear the previous attempt when moving to a different conversation.
+    const currentPath = window.location.pathname;
+
+    if (panel.dataset.conversationPath !== currentPath) {
+      panel.querySelector("#studyguard-attempt").value = "";
+      panel.dataset.conversationPath = currentPath;
+    }
 
     // Only change the page if the panel needs to be placed or moved.
     if (form.previousElementSibling !== panel) {
