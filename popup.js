@@ -47,5 +47,18 @@ studyModeCheckbox.addEventListener("change", async () => {
   }
 });
 
+// Open Chrome's side panel (needs a click, which this is). Chrome 116 or newer.
+document.querySelector("#open-map").addEventListener("click", async () => {
+  try {
+    const currentWindow = await chrome.windows.getCurrent();
+    await chrome.sidePanel.open({ windowId: currentWindow.id });
+    window.close();
+  } catch (error) {
+    statusMessage.textContent =
+      "Could not open the side panel. Try Chrome's side panel menu instead.";
+    console.error("StudyGuard could not open the side panel:", error);
+  }
+});
+
 // Restore the setting each time the popup opens.
 loadSettings();
