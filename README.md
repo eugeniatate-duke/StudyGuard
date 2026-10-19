@@ -1,13 +1,15 @@
 StudyGuard is a privacy-preserving browser intervention that adds productive friction to AI-assisted studying.
 
 ## Status
-Early prototype: extension manifest and settings popup placeholder.
-Inline study support is planned but not implemented yet.
+Working prototype. With study mode on, a panel appears above ChatGPT's
+message box where students write an attempt, choose a hint level (1-3),
+and copy a structured hint request. Higher hint levels unlock only after
+an attempt is written. Nothing is sent automatically, and no data leaves
+the browser.
 
 ## Requirements
 - Google Chrome
-- No build dependencies, dataset, API key, or model download required
-  for the current skeleton
+- No build dependencies, dataset, API key, or model download required.
 
 ## Load locally
 1. Open chrome://extensions.

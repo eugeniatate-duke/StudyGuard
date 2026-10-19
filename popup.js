@@ -2,7 +2,7 @@
 const studyModeCheckbox = document.querySelector("#study-mode");
 const statusMessage = document.querySelector("#status");
 
-// Show the saved state without suggesting inline support works yet.
+// Show the saved study mode preference.
 function showStatus(enabled) {
   statusMessage.textContent = enabled
     ? "Study mode preference: on."
