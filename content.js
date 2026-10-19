@@ -214,6 +214,12 @@ if (typeof module !== "undefined") {
       const question = chatInput.innerText.trim();
       const studentAttempt = attempt.value.trim();
 
+      // Run the local analysis engine on the question and the attempt box.
+      const analysis = StudyGuardEngine.analyzePrompt(question, {
+        attempt: studentAttempt,
+      });
+      console.log("StudyGuard analysis:", analysis); // inspect in DevTools
+
       if (!question) {
         previewSection.hidden = true;
         preview.value = "";
@@ -230,8 +236,11 @@ if (typeof module !== "undefined") {
 
       previewSection.hidden = false;
       previewSection.open = true;
-      status.textContent =
-        "Preview ready. Nothing has been sent. You can edit it below.";
+      const verdict =
+        analysis.decision === "pass"
+          ? "ready to send"
+          : "try adding more of your own thinking first";
+      status.textContent = `Preview ready. Nothing has been sent. Effort score: ${analysis.score}/100 (${verdict}).`;
     });
 
     panel.append(
