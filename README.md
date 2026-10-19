@@ -44,6 +44,17 @@ attempt, and it never leaves your device.
 Site selectors live in `sites.js`. Chat sites change their pages often; if
 StudyGuard stops holding messages on a site, that file is the one to check.
 
+## Prompt Breakdown Map (side panel)
+Click the StudyGuard icon, then "Open Prompt Breakdown Map" (Chrome 116+).
+After each analysis the panel shows the effort score against the pass mark,
+what the prompt is asking for, how much of your own effort it shows, which
+words pushed the score up or down (found by removing each word and
+re-scoring), which rules fired, and what would unlock the prompt.
+
+The numbers are rule points from a transparent scorer, not probabilities.
+The map contains your prompt's words, so it is passed from the page to the
+panel in memory and never written to storage.
+
 ## Requirements
 - Google Chrome
 - No build dependencies, dataset, API key, or model download required.

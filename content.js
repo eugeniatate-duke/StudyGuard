@@ -158,20 +158,42 @@ if (typeof module !== "undefined") {
     container.append(box);
   }
 
-  // Runs the word-importance and advice steps and draws them into `breakdown`.
+  // ---- Step 5: publish the Prompt Breakdown Map to the side panel ---------
+
+  // The latest map lives only in this page's memory (it contains prompt
+  // words, so it is never written to storage).
+  let latestMap = null;
+
+  function publishMap(analysis, explanation, hint) {
+    latestMap = StudyGuardMap.buildMap(analysis, explanation, hint);
+    // If the side panel is open it receives this; if not, the call is
+    // rejected, which is fine.
+    chrome.runtime
+      .sendMessage({ type: "studyguard:map", map: latestMap })
+      .catch(() => {});
+  }
+
+  // The side panel asks for the latest map when it opens.
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message && message.type === "studyguard:getMap") {
+      sendResponse({ map: latestMap });
+    }
+  });
+
+  // Runs the word-importance and advice steps, draws them into `breakdown`,
+  // and publishes the Prompt Breakdown Map to the side panel.
   // Shared by the "Prepare a hint request" button and the submit gate below.
   function renderAnalysis(breakdown, question, studentAttempt) {
-    const explanation = StudyGuardPerturbation.explainPrompt(question, {
-      attempt: studentAttempt,
-    });
+    const options = { attempt: studentAttempt };
+    const analysis = StudyGuardEngine.analyzePrompt(question, options);
+    const explanation = StudyGuardPerturbation.explainPrompt(question, options);
+    const hint = StudyGuardCounterfactual.generateHint(question, options);
+
+    publishMap(analysis, explanation, hint);
+
     if (explanation.blocked) {
       renderBreakdown(breakdown, question, explanation);
-      renderHint(
-        breakdown,
-        StudyGuardCounterfactual.generateHint(question, {
-          attempt: studentAttempt,
-        })
-      );
+      renderHint(breakdown, hint);
       breakdown.hidden = false;
     } else {
       breakdown.hidden = true;
@@ -280,6 +302,13 @@ if (typeof module !== "undefined") {
 
     if (!verdict.hold) {
       recordEvent("passed", verdict.analysis);
+      publishMap(
+        verdict.analysis,
+        StudyGuardPerturbation.explainPrompt(question, {
+          attempt: attemptText,
+        }),
+        null
+      );
       return { hold: false };
     }
 
@@ -604,6 +633,6 @@ if (typeof module !== "undefined") {
     isInsidePanel: (el) => !!el.closest("#" + panelId),
     onSubmit: handleSubmitAttempt,
   });
-  
+
   syncSettings();
 })();
