@@ -55,6 +55,16 @@ The numbers are rule points from a transparent scorer, not probabilities.
 The map contains your prompt's words, so it is passed from the page to the
 panel in memory and never written to storage.
 
+## Learning journal (opt-in)
+Off by default. When you tick "Keep a learning journal" in the popup,
+StudyGuard saves each submit (your question, your attempt, the score, what the
+scorer found, the words that pushed the score and the advice shown) in
+`chrome.storage.local` on this device. Nothing is sent anywhere. It keeps the
+newest 200 entries and "Clear journal" deletes them. Unticking the box stops
+saving immediately. This is separate from the always-on analytics log, which
+never stores any text. Step 8 exports the journal as Markdown or PDF.
+
+
 ## Requirements
 - Google Chrome
 - No build dependencies, dataset, API key, or model download required.
