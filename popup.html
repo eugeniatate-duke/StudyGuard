@@ -17,6 +17,16 @@
         <input id="study-mode" type="checkbox" disabled>
         Enable study mode
       </label>
+      <label>
+        <input id="journal-opt-in" type="checkbox" disabled>
+        Keep a learning journal
+      </label>
+      <p>
+        Saves your questions and attempts on this device only, so you can
+        export them later. Off by default.
+        <span id="journal-count">0 entries</span>
+        <button id="clear-journal" type="button">Clear journal</button>
+      </p>
       <button id="open-map" type="button">Open Prompt Breakdown Map</button>
 
       <p id="status" role="status">Loading settings...</p>
@@ -26,7 +36,7 @@
         above ChatGPT's message box.
       </p>
     </main>
-
+    <script src="journal.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
