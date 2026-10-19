@@ -1,3 +1,44 @@
+const HINT_LEVELS = {
+  1: {
+    label: "Level 1: Conceptual nudge",
+    instruction:
+      "Give a conceptual nudge only. Name the idea I should think about, but show no steps or calculations.",
+  },
+  2: {
+    label: "Level 2: Point to the step",
+    instruction:
+      "Point to the specific step or mistake in my attempt that I should revisit, without fixing it for me.",
+  },
+  3: {
+    label: "Level 3: One worked step",
+    instruction:
+      "Work through only the next single step, then stop and ask me to continue from there.",
+  },
+};
+
+function buildHintRequest(question, attempt, level = 1) {
+  const config = HINT_LEVELS[level] ?? HINT_LEVELS[1];
+
+  return [
+    "Help me learn by giving one useful hint at a time.",
+    "Do not provide the complete solution or final answer yet.",
+    config.instruction,
+    "If my attempt contains a mistake, guide me toward noticing it.",
+    "End with one question or small next step for me to try.",
+    "",
+    "Problem:",
+    question,
+    "",
+    "My attempt or sticking point:",
+    attempt || "I’m not sure how to start. Give me a starting hint.",
+  ].join("\n");
+}
+
+// Lets you unit-test the builder in Node without affecting Chrome.
+if (typeof module !== "undefined") {
+  module.exports = { buildHintRequest, HINT_LEVELS };
+}
+
 (() => {
   const panelId = "studyguard-panel";
 
@@ -7,6 +48,20 @@
 
   let studyModeEnabled = false;
   let updateScheduled = false;
+
+  function findVisibleChatInput() {
+    return [...document.querySelectorAll(inputSelector)].find((candidate) => {
+      const rect = candidate.getBoundingClientRect();
+      const style = getComputedStyle(candidate);
+
+      return (
+        rect.width > 0 &&
+        rect.height > 0 &&
+        style.visibility !== "hidden" &&
+        style.visibility !== "collapse"
+      );
+    });
+  }
 
   function createPanel() {
     const panel = document.createElement("aside");
@@ -39,7 +94,42 @@
     note.textContent =
       "Optional. This draft clears when you switch chats, refresh, or turn study mode off.";
 
-    // panel.append(heading, label, attempt, note);
+      const levelLabel = document.createElement("label");
+      levelLabel.htmlFor = "studyguard-level";
+      levelLabel.textContent = "Hint level";
+
+      const levelSelect = document.createElement("select");
+      levelSelect.id = "studyguard-level";
+      levelSelect.setAttribute("aria-describedby", "studyguard-level-note");
+
+      for (const [value, config] of Object.entries(HINT_LEVELS)) {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = config.label;
+        levelSelect.append(option);
+      }
+
+      const levelNote = document.createElement("p");
+      levelNote.id = "studyguard-level-note";
+
+      // Friction: higher levels unlock only after the student writes an attempt.
+      function syncLevelAccess() {
+        const hasAttempt = attempt.value.trim().length > 0;
+
+        for (const option of levelSelect.options) {
+          option.disabled = !hasAttempt && option.value !== "1";
+        }
+
+        if (!hasAttempt) levelSelect.value = "1";
+
+        levelNote.textContent = hasAttempt
+          ? ""
+          : "Write an attempt above to unlock Levels 2 and 3.";
+      }
+
+      attempt.addEventListener("input", syncLevelAccess);
+      syncLevelAccess();
+
     const prepareButton = document.createElement("button");
     prepareButton.type = "button";
     prepareButton.textContent = "Prepare a hint request";
@@ -47,10 +137,6 @@
     const status = document.createElement("p");
     status.id = "studyguard-hint-status";
     status.setAttribute("role", "status");
-
-    // const previewSection = document.createElement("div");
-    // previewSection.id = "studyguard-preview-section";
-    // previewSection.hidden = true;
 
     // A native expandable section provides keyboard-accessible controls.
     const previewSection = document.createElement("details");
@@ -115,19 +201,7 @@
 
     prepareButton.addEventListener("click", () => {
       // Use the same visibility check that fixed our navigation issue.
-      const chatInput = [...document.querySelectorAll(inputSelector)].find(
-        (candidate) => {
-          const rect = candidate.getBoundingClientRect();
-          const style = getComputedStyle(candidate);
-
-          return (
-            rect.width > 0 &&
-            rect.height > 0 &&
-            style.visibility !== "hidden" &&
-            style.visibility !== "collapse"
-          );
-        }
-      );
+      const chatInput = findVisibleChatInput();
 
       if (!chatInput) {
         previewSection.hidden = true;
@@ -148,18 +222,11 @@
       }
 
       // Joining separate lines keeps the generated prompt readable.
-      preview.value = [
-        "Help me learn by giving one useful hint at a time.",
-        "Do not provide the complete solution or final answer yet.",
-        "If my attempt contains a mistake, guide me toward noticing it.",
-        "End with one question or small next step for me to try.",
-        "",
-        "Problem:",
+      preview.value = buildHintRequest(
         question,
-        "",
-        "My attempt or sticking point:",
-        studentAttempt || "I’m not sure how to start. Give me a starting hint.",
-      ].join("\n");
+        studentAttempt,
+        Number(levelSelect.value)
+      );
 
       previewSection.hidden = false;
       previewSection.open = true;
@@ -173,6 +240,9 @@
       label,
       attempt,
       note,
+      levelLabel,
+      levelSelect,
+      levelNote,
       prepareButton,
       status,
       previewSection
@@ -190,19 +260,7 @@
 
     // Navigation can leave hidden chat inputs in the page.
     // Find the first matching input that actually occupies visible space.
-    const input = [...document.querySelectorAll(inputSelector)].find(
-      (candidate) => {
-        const rect = candidate.getBoundingClientRect();
-        const style = getComputedStyle(candidate);
-
-        return (
-          rect.width > 0 &&
-          rect.height > 0 &&
-          style.visibility !== "hidden" &&
-          style.visibility !== "collapse"
-        );
-      }
-    );
+    const input = findVisibleChatInput();
 
     const form = input?.closest("form");
 
@@ -219,6 +277,9 @@
 
     if (panel.dataset.conversationPath !== currentPath) {
       panel.querySelector("#studyguard-attempt").value = "";
+      panel
+        .querySelector("#studyguard-attempt")
+        .dispatchEvent(new Event("input")); // re-locks levels 2 and 3
       panel.querySelector("#studyguard-preview").value = "";
       panel.querySelector("#studyguard-preview-section").hidden = true;
       panel.querySelector("#studyguard-hint-status").textContent = "";
