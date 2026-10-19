@@ -9,6 +9,15 @@ and copy a structured hint request. Higher hint levels unlock only after
 an attempt is written. Nothing is sent automatically, and no data leaves
 the browser.
 
+## How the word highlighting works
+When a prompt scores below 50, StudyGuard removes each word in turn, re-scores
+the prompt, and colors the words by how much the score changed. Red words
+pushed the score down (e.g. "write", "function"); green words helped (e.g.
+"stuck", "error"). This is a perturbation (occlusion) explanation, the same idea
+as LIME, applied to a transparent rule-based scorer. Limits: single-word
+removal misses redundant phrases, and importance reflects this scorer, not a
+human judgment.
+
 ## Requirements
 - Google Chrome
 - No build dependencies, dataset, API key, or model download required.
