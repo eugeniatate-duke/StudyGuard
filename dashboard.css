@@ -1,0 +1,89 @@
+/* dashboard.css - StudyGuard analytics dashboard (Step 9) */
+.viz-root, body {
+  color-scheme: light;
+  --surface-1: #fcfcfb;
+  --surface-2: #f3f3f0;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --grid: #e3e2de;
+  --series-1: #2a78d6; /* sent normally / shows effort */
+  --series-2: #eb6834; /* held / asks for the answer */
+  --series-3: #1baf7a; /* sent anyway */
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) body {
+    color-scheme: dark;
+    --surface-1: #1a1a19;
+    --surface-2: #242423;
+    --text-primary: #f0efec;
+    --text-secondary: #c3c2b7;
+    --grid: #333330;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+  }
+}
+:root[data-theme="dark"] body {
+  color-scheme: dark;
+  --surface-1: #1a1a19;
+  --surface-2: #242423;
+  --text-primary: #f0efec;
+  --text-secondary: #c3c2b7;
+  --grid: #333330;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+
+body { margin: 0; font: 15px/1.5 system-ui, sans-serif; color: var(--text-primary); background: var(--surface-1); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 12px 24px; background: var(--surface-2); border-bottom: 1px solid var(--grid); }
+.controls button { padding: 7px 14px; border: 0; border-radius: 6px; background: #1f6b45; color: #fff; cursor: pointer; }
+.controls .quiet { background: transparent; color: var(--text-primary); border: 1px solid var(--text-secondary); margin-left: auto; }
+.check { font-size: 14px; }
+main { max-width: 900px; margin: 0 auto; padding: 24px; }
+h1 { margin: 0; font-size: 24px; }
+h2 { margin: 28px 0 2px; font-size: 16px; }
+.sub, .note { color: var(--text-secondary); font-size: 13px; margin: 2px 0 8px; }
+.note { margin-top: 24px; }
+
+/* Stat tiles */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 16px; }
+.tile { background: var(--surface-2); border-radius: 8px; padding: 12px 14px; }
+.tile .value { font-size: 28px; font-weight: 600; line-height: 1.1; }
+.tile .label { font-size: 13px; color: var(--text-secondary); }
+
+/* Legends */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; margin: 6px 0; }
+.legend span.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: baseline; }
+.sw-1 { background: var(--series-1); } .sw-2 { background: var(--series-2); } .sw-3 { background: var(--series-3); }
+
+/* SVG charts */
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--text-secondary); font: 11px system-ui, sans-serif; }
+svg .grid { stroke: var(--grid); stroke-width: 1; }
+svg .axis-label { font-size: 11px; }
+svg .value { fill: var(--text-primary); font-weight: 600; }
+svg .bar { stroke: var(--surface-1); stroke-width: 2; }
+.fill-1 { fill: var(--series-1); } .fill-2 { fill: var(--series-2); } .fill-3 { fill: var(--series-3); }
+svg .passmark { stroke: var(--text-primary); stroke-width: 1.5; stroke-dasharray: 4 3; }
+
+/* Horizontal signal bars */
+.hbars { display: grid; gap: 6px; margin-top: 8px; }
+.hrow { display: grid; grid-template-columns: minmax(150px, 38%) 1fr 36px; gap: 10px; align-items: center; font-size: 13px; }
+.hrow .track { height: 10px; background: var(--surface-2); border-radius: 5px; }
+.hrow .bar { height: 10px; border-radius: 5px; }
+.hrow .count { text-align: right; font-weight: 600; }
+
+/* Data tables, hidden until asked for */
+table { display: none; border-collapse: collapse; margin: 8px 0; font-size: 13px; width: 100%; }
+body.show-tables table { display: table; }
+th, td { text-align: left; padding: 4px 10px; border-bottom: 1px solid var(--grid); }
+
+.empty { color: var(--text-secondary); }
+
+@media print {
+  .controls { display: none; }
+  main { max-width: none; padding: 0; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  section { page-break-inside: avoid; }
+}

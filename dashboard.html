@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StudyGuard Analytics</title>
+    <link rel="stylesheet" href="dashboard.css">
+  </head>
+  <body>
+    <div class="controls">
+      <button id="export-csv" type="button">Export CSV</button>
+      <button id="print" type="button">Print / Save as PDF</button>
+      <label class="check"><input id="show-tables" type="checkbox"> Show data tables</label>
+      <button id="clear-log" type="button" class="quiet">Clear analytics log</button>
+    </div>
+    <main id="dashboard" aria-live="polite"></main>
+    <script src="engine.js"></script>
+    <script src="eventlog.js"></script>
+    <script src="analytics.js"></script>
+    <script src="dashboard.js"></script>
+  </body>
+</html>

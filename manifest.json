@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "StudyGuard",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Encourages students to attempt a problem before seeking AI assistance.",
   "permissions": ["storage", "sidePanel"],
   "side_panel": {
