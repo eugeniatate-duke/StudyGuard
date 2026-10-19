@@ -1,6 +1,6 @@
 StudyGuard is a privacy-preserving browser intervention that adds productive friction to AI-assisted studying.
 
-## Can transparent, explainable friction reduce answer-seeking in AI study sessions? 
+## Can transparent, explainable friction reduce answer-seeking in AI study sessions?
 
 ## Status
 Working prototype. With study mode on, a panel appears above ChatGPT's
@@ -19,6 +19,14 @@ the browser.
 3. Select Load unpacked.
 4. Choose this repository folder.
 5. Open StudyGuard from the extensions menu.
+
+## Run the tests
+Requires Node.js 18 or newer. From the repo root:
+
+    node --test
+
+The analysis engine (`engine.js`) has no browser code, so its tests run
+directly in Node with no installs.
 
 ## Project documentation
 - [Project plan](docs/project-plan.md)
