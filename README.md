@@ -1,5 +1,7 @@
 StudyGuard is a privacy-preserving browser intervention that adds productive friction to AI-assisted studying.
 
+## Can transparent, explainable friction reduce answer-seeking in AI study sessions? 
+
 ## Status
 Working prototype. With study mode on, a panel appears above ChatGPT's
 message box where students write an attempt, choose a hint level (1-3),
