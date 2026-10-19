@@ -28,6 +28,7 @@
       sendButtonSelectors: [
         '[data-testid="send-button"]',
         "#composer-submit-button",
+        'button[aria-label="Send"]',
         'button[aria-label="Send prompt"]',
       ],
       anchorSelectors: ["form"],
@@ -99,16 +100,19 @@
     return node;
   }
 
-  /** Find the Send button belonging to this message box, or null. */
+  /** Find the visible, enabled Send button belonging to this message box, or null. */
   function findSendButton(adapter, input) {
     const scope = findAnchor(adapter, input) || document;
+    const usable = (b) =>
+      !b.disabled &&
+      (typeof b.getClientRects !== "function" || b.getClientRects().length > 0);
     for (const sel of adapter.sendButtonSelectors) {
-      const button = scope.querySelector(sel);
-      if (button && !button.disabled) return button;
+      const button = [...scope.querySelectorAll(sel)].find(usable);
+      if (button) return button;
     }
     return (
       [...scope.querySelectorAll("button")].find(
-        (b) => !b.disabled && isSendButton(adapter, b)
+        (b) => usable(b) && isSendButton(adapter, b)
       ) || null
     );
   }
