@@ -93,6 +93,11 @@ clearJournalButton.addEventListener("click", async () => {
   loadJournal();
 });
 
+// Open the printable journal page in a new tab (Step 8).
+document.querySelector("#open-journal").addEventListener("click", () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL("journalpage.html") });
+});
+
 loadJournal();
 
 // Restore the setting each time the popup opens.
