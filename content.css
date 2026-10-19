@@ -183,3 +183,29 @@
   font-size: 12px;
   color: #526359;
 }
+
+/* Counterfactual advice (Step 3) */
+#studyguard-panel .studyguard-hint-box {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #ccd9d1;
+}
+
+#studyguard-panel .studyguard-hint-title {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+#studyguard-panel .studyguard-hint-box ol {
+  margin: 0 0 8px 18px;
+  padding: 0;
+}
+
+#studyguard-panel .studyguard-hint-box li {
+  margin-bottom: 4px;
+}
+
+#studyguard-panel .studyguard-hint-note {
+  font-size: 12px;
+  color: #526359;
+}

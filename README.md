@@ -18,6 +18,16 @@ as LIME, applied to a transparent rule-based scorer. Limits: single-word
 removal misses redundant phrases, and importance reflects this scorer, not a
 human judgment.
 
+## How the "what would unlock this" advice works
+When a prompt scores below 50, StudyGuard searches for the smallest set of
+additions that would raise it to a pass (for example, writing an attempt or
+naming where you are stuck). This is a counterfactual explanation: the smallest
+change that would have led to a different outcome (Wachter, Mittelstadt &
+Russell, 2017). Each tip is verified by re-scoring the prompt with an example of
+that content added, so the advice is tested, not guessed. Only changes a student
+can make are suggested. Limit: a student can type filler that matches the
+patterns, so the tool cannot tell sincere effort from gaming.
+
 ## Requirements
 - Google Chrome
 - No build dependencies, dataset, API key, or model download required.

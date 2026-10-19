@@ -118,6 +118,42 @@ if (typeof module !== "undefined") {
     container.append(title, line, legend);
   }
 
+  // Shows the counterfactual advice ("To unlock this prompt...") as a numbered
+  // list under the word breakdown. The advice was verified against the engine.
+  function renderHint(container, hint) {
+    if (!hint.needed) return;
+
+    const box = document.createElement("div");
+    box.className = "studyguard-hint-box";
+
+    const title = document.createElement("p");
+    title.className = "studyguard-hint-title";
+    title.textContent = "What would unlock this prompt";
+
+    const list = document.createElement("ol");
+    for (const step of hint.steps) {
+      const item = document.createElement("li");
+      item.textContent = step.advice;
+      list.append(item);
+    }
+
+    box.append(title, list);
+
+    if (hint.reword) {
+      const reword = document.createElement("p");
+      reword.textContent = hint.reword.message;
+      box.append(reword);
+    }
+
+    const note = document.createElement("p");
+    note.className = "studyguard-hint-note";
+    note.textContent =
+      "Each tip was checked against the same scorer. Add real thinking of your own; filler text defeats the purpose.";
+    box.append(note);
+
+    container.append(box);
+  }
+
   function createPanel() {
     const panel = document.createElement("aside");
     panel.id = panelId;
@@ -287,6 +323,11 @@ if (typeof module !== "undefined") {
       });
       if (explanation.blocked) {
         renderBreakdown(breakdown, question, explanation);
+        // NEW: counterfactual advice, shown under the word breakdown.
+        const hint = StudyGuardCounterfactual.generateHint(question, {
+          attempt: studentAttempt,
+        });
+        renderHint(breakdown, hint);
         breakdown.hidden = false;
       } else {
         breakdown.hidden = true;
