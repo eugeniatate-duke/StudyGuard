@@ -60,5 +60,40 @@ document.querySelector("#open-map").addEventListener("click", async () => {
   }
 });
 
+// ---- Learning journal controls (Step 7) ----
+const journalCheckbox = document.querySelector("#journal-opt-in");
+const journalCount = document.querySelector("#journal-count");
+const clearJournalButton = document.querySelector("#clear-journal");
+const journal = StudyGuardJournal.createJournal(chrome.storage.local);
+
+async function loadJournal() {
+  try {
+    journalCheckbox.checked = await journal.isEnabled();
+    const entries = await journal.getAll();
+    journalCount.textContent = entries.length + (entries.length === 1 ? " entry" : " entries");
+    journalCheckbox.disabled = false;
+  } catch (error) {
+    journalCount.textContent = "Could not load journal.";
+    console.error("StudyGuard could not load the journal:", error);
+  }
+}
+
+journalCheckbox.addEventListener("change", async () => {
+  try {
+    await journal.setEnabled(journalCheckbox.checked);
+  } catch (error) {
+    journalCheckbox.checked = !journalCheckbox.checked; // restore the old state
+    console.error("StudyGuard could not save the journal setting:", error);
+  }
+});
+
+clearJournalButton.addEventListener("click", async () => {
+  if (!confirm("Delete all journal entries on this device? This cannot be undone.")) return;
+  await journal.clear();
+  loadJournal();
+});
+
+loadJournal();
+
 // Restore the setting each time the popup opens.
 loadSettings();

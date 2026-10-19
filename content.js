@@ -260,6 +260,7 @@ if (typeof module !== "undefined") {
   // site's own Send button on their behalf.
   function sendAnyway(verdict) {
     recordEvent("sent_anyway", verdict.analysis);
+    recordJournal("sent_anyway", verdict);
     bypassUntil = Date.now() + 10000; // let the next send through
 
     const panel = document.getElementById(panelId);
@@ -283,7 +284,28 @@ if (typeof module !== "undefined") {
   }
 
   // Called by the interceptor each time the student tries to send.
-  // Returns { hold: true } to pause the send, { hold: false } to let it go.
+  // ---- Step 7: opt-in learning journal ------------------------------------
+
+  // Saves the student's question and attempt ONLY if they switched the journal
+  // on in the popup (journal.js checks that flag on every add).
+  const journal = StudyGuardJournal.createJournal(chrome.storage.local);
+
+  function recordJournal(action, verdict) {
+    journal
+      .add(
+        StudyGuardJournal.makeEntry({
+          action,
+          site: site.name,
+          question: verdict.question,
+          attempt: verdict.attempt,
+          map: verdict.map,
+        })
+      )
+      .catch((error) =>
+        console.error("StudyGuard could not save journal entry:", error)
+      );
+  }
+
   function handleSubmitAttempt() {
     if (!studyModeEnabled) return { hold: false };
     if (Date.now() < bypassUntil) return { hold: false };
@@ -299,9 +321,10 @@ if (typeof module !== "undefined") {
     const verdict = StudyGuardGate.evaluateSubmission(question, {
       attempt: attemptText,
     });
+    verdict.question = question;
+    verdict.attempt = attemptText;
 
     if (!verdict.hold) {
-      recordEvent("passed", verdict.analysis);
       publishMap(
         verdict.analysis,
         StudyGuardPerturbation.explainPrompt(question, {
@@ -309,12 +332,17 @@ if (typeof module !== "undefined") {
         }),
         null
       );
+      verdict.map = latestMap;
+      recordEvent("passed", verdict.analysis);
+      recordJournal("passed", verdict);
       return { hold: false };
     }
 
-    recordEvent("held", verdict.analysis);
     const breakdown = panel.querySelector("#studyguard-breakdown");
-    renderAnalysis(breakdown, question, attemptText);
+    renderAnalysis(breakdown, question, attemptText); // also builds latestMap
+    verdict.map = latestMap;
+    recordEvent("held", verdict.analysis);
+    recordJournal("held", verdict);
     renderSoftBlock(breakdown, verdict);
     panel.scrollIntoView({ block: "nearest", behavior: "smooth" });
     return { hold: true };
