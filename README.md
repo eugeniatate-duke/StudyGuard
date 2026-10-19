@@ -76,6 +76,19 @@ The report says it was generated from your own saved log and that scores are
 rule points, not probabilities. Your text is always quoted, so it cannot alter
 the report's structure. Nothing leaves your device.
 
+## Analytics dashboard
+Click "Open Analytics Dashboard" in the popup. It reads the always-on event
+log (time, site, outcome, score and rule names only, never your text) and
+shows: attempts recorded, % held, % of holds sent anyway, % of holds revised
+and sent within 30 minutes, outcomes by day (last 14 days), the spread of
+effort scores around the pass mark of 50, and which rules fire most.
+"Export CSV" downloads the raw log for a spreadsheet; "Print / Save as PDF"
+saves the dashboard; "Show data tables" shows every chart's data as a table.
+
+These numbers describe behaviour, not learning. A message that is held and
+retried counts each time it is attempted. See docs/evaluation-plan.md for what
+they can and cannot support.
+
 
 ## Requirements
 - Google Chrome
