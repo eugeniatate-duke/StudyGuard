@@ -64,6 +64,18 @@ newest 200 entries and "Clear journal" deletes them. Unticking the box stops
 saving immediately. This is separate from the always-on analytics log, which
 never stores any text. Step 8 exports the journal as Markdown or PDF.
 
+## XAI Learning Journal (export)
+With the learning journal switched on, click "Open Learning Journal (export)"
+in the popup. The page shows your trial-and-error path: for each message, what
+you asked, your attempt, how StudyGuard read it and why, the words that pushed
+the score, the advice shown, and what you did next. It ends with reflection
+questions. Use "Download Markdown" for a .md file, or "Print / Save as PDF" to
+hand in with homework. You can type your name and assignment on the page.
+
+The report says it was generated from your own saved log and that scores are
+rule points, not probabilities. Your text is always quoted, so it cannot alter
+the report's structure. Nothing leaves your device.
+
 
 ## Requirements
 - Google Chrome

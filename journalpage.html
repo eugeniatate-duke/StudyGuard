@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XAI Learning Journal</title>
+    <link rel="stylesheet" href="journalpage.css">
+  </head>
+  <body>
+    <div class="controls">
+      <label>Your name <input id="student-name" type="text" autocomplete="name"></label>
+      <label>Assignment <input id="assignment" type="text"></label>
+      <button id="download-md" type="button">Download Markdown</button>
+      <button id="print" type="button">Print / Save as PDF</button>
+      <p class="hint">Tip: in the print window, choose "Save as PDF" as the destination.</p>
+    </div>
+    <main id="report" aria-live="polite"></main>
+    <script src="journal.js"></script>
+    <script src="journalexport.js"></script>
+    <script src="journalpage.js"></script>
+  </body>
+</html>
