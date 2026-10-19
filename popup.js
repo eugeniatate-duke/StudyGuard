@@ -98,6 +98,11 @@ document.querySelector("#open-journal").addEventListener("click", () => {
   chrome.tabs.create({ url: chrome.runtime.getURL("journalpage.html") });
 });
 
+// Open the analytics dashboard in a new tab (Step 9).
+document.querySelector("#open-dashboard").addEventListener("click", () => {
+  chrome.tabs.create({ url: chrome.runtime.getURL("dashboard.html") });
+});
+
 loadJournal();
 
 // Restore the setting each time the popup opens.
