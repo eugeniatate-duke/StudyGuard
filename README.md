@@ -28,6 +28,22 @@ that content added, so the advice is tested, not guessed. Only changes a student
 can make are suggested. Limit: a student can type filler that matches the
 patterns, so the tool cannot tell sincere effort from gaming.
 
+## Soft block on send
+With study mode on, pressing Enter or clicking Send on ChatGPT or Claude runs
+the effort scorer first. If the score is below 50, the message is paused and
+the panel explains why, shows which words mattered, and says what would raise
+the score. The student can add their own thinking or choose "Send anyway".
+This is a soft block by design: a hard block would be bypassed and would punish
+legitimate questions the scorer misjudges. If StudyGuard errors, the message is
+sent normally.
+
+StudyGuard keeps a small local log (time, site, outcome, score, signal names)
+in `chrome.storage.local`. It never stores the text of your question or
+attempt, and it never leaves your device.
+
+Site selectors live in `sites.js`. Chat sites change their pages often; if
+StudyGuard stops holding messages on a site, that file is the one to check.
+
 ## Requirements
 - Google Chrome
 - No build dependencies, dataset, API key, or model download required.

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "StudyGuard",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "Encourages students to attempt a problem before seeking AI assistance.",
   "permissions": ["storage"],
   "action": {
@@ -10,8 +10,17 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://chatgpt.com/*"],
-      "js": ["engine.js", "perturbation.js", "counterfactual.js", "content.js"],
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*"],
+      "js": [
+        "sites.js",
+        "engine.js",
+        "perturbation.js",
+        "counterfactual.js",
+        "gate.js",
+        "eventlog.js",
+        "interceptor.js",
+        "content.js"
+      ],
       "css": ["content.css"],
       "run_at": "document_idle"
     }
