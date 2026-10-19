@@ -63,6 +63,61 @@ if (typeof module !== "undefined") {
     });
   }
 
+  // Draws the prompt as read-only text where each important word gets a colored
+  // background. Red = pushed the score toward "needs more effort".
+  // Green = showed your own thinking. Hover a word for the exact point change.
+  // Words are also underlined (solid = red, dotted = green) so the meaning
+  // doesn't depend on color alone.
+  function renderBreakdown(container, prompt, explanation) {
+    container.replaceChildren(); // clear any previous breakdown
+
+    const title = document.createElement("p");
+    title.className = "studyguard-breakdown-title";
+    title.textContent = "Which words moved your score";
+
+    const line = document.createElement("p");
+    line.className = "studyguard-breakdown-text";
+
+    let cursor = 0;
+    for (const token of explanation.tokens) {
+      // Keep spaces and punctuation between words exactly as typed.
+      if (token.start > cursor) line.append(prompt.slice(cursor, token.start));
+
+      const span = document.createElement("span");
+      span.textContent = token.text;
+
+      if (token.flagged) {
+        const isRed = token.effect === "answer_seeking";
+        const alpha = (0.2 + 0.6 * token.importance).toFixed(2);
+        span.className = isRed
+          ? "studyguard-word-red"
+          : "studyguard-word-green";
+        span.style.background = isRed
+          ? `rgba(200, 50, 50, ${alpha})`
+          : `rgba(40, 150, 90, ${alpha})`;
+
+        const points = Math.abs(token.delta);
+        span.title = isRed
+          ? `Removing "${token.text}" would raise your score by ${points} points` +
+            (token.flipsDecision ? " and let the prompt pass" : "")
+          : `Removing "${token.text}" would lower your score by ${points} points`;
+      }
+
+      line.append(span);
+      cursor = token.end;
+    }
+    if (cursor < prompt.length) line.append(prompt.slice(cursor));
+
+    const legend = document.createElement("p");
+    legend.className = "studyguard-breakdown-legend";
+    legend.textContent =
+      "Red (solid underline): pushes toward needing more effort. " +
+      "Green (dotted underline): shows your own thinking. " +
+      "This explains a simple rule-based scorer, not a judgment of you.";
+
+    container.append(title, line, legend);
+  }
+
   function createPanel() {
     const panel = document.createElement("aside");
     panel.id = panelId;
@@ -94,41 +149,41 @@ if (typeof module !== "undefined") {
     note.textContent =
       "Optional. This draft clears when you switch chats, refresh, or turn study mode off.";
 
-      const levelLabel = document.createElement("label");
-      levelLabel.htmlFor = "studyguard-level";
-      levelLabel.textContent = "Hint level";
+    const levelLabel = document.createElement("label");
+    levelLabel.htmlFor = "studyguard-level";
+    levelLabel.textContent = "Hint level";
 
-      const levelSelect = document.createElement("select");
-      levelSelect.id = "studyguard-level";
-      levelSelect.setAttribute("aria-describedby", "studyguard-level-note");
+    const levelSelect = document.createElement("select");
+    levelSelect.id = "studyguard-level";
+    levelSelect.setAttribute("aria-describedby", "studyguard-level-note");
 
-      for (const [value, config] of Object.entries(HINT_LEVELS)) {
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = config.label;
-        levelSelect.append(option);
+    for (const [value, config] of Object.entries(HINT_LEVELS)) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = config.label;
+      levelSelect.append(option);
+    }
+
+    const levelNote = document.createElement("p");
+    levelNote.id = "studyguard-level-note";
+
+    // Friction: higher levels unlock only after the student writes an attempt.
+    function syncLevelAccess() {
+      const hasAttempt = attempt.value.trim().length > 0;
+
+      for (const option of levelSelect.options) {
+        option.disabled = !hasAttempt && option.value !== "1";
       }
 
-      const levelNote = document.createElement("p");
-      levelNote.id = "studyguard-level-note";
+      if (!hasAttempt) levelSelect.value = "1";
 
-      // Friction: higher levels unlock only after the student writes an attempt.
-      function syncLevelAccess() {
-        const hasAttempt = attempt.value.trim().length > 0;
+      levelNote.textContent = hasAttempt
+        ? ""
+        : "Write an attempt above to unlock Levels 2 and 3.";
+    }
 
-        for (const option of levelSelect.options) {
-          option.disabled = !hasAttempt && option.value !== "1";
-        }
-
-        if (!hasAttempt) levelSelect.value = "1";
-
-        levelNote.textContent = hasAttempt
-          ? ""
-          : "Write an attempt above to unlock Levels 2 and 3.";
-      }
-
-      attempt.addEventListener("input", syncLevelAccess);
-      syncLevelAccess();
+    attempt.addEventListener("input", syncLevelAccess);
+    syncLevelAccess();
 
     const prepareButton = document.createElement("button");
     prepareButton.type = "button";
@@ -137,6 +192,11 @@ if (typeof module !== "undefined") {
     const status = document.createElement("p");
     status.id = "studyguard-hint-status";
     status.setAttribute("role", "status");
+
+    // Holds the word-importance view. Hidden until a prompt needs more effort.
+    const breakdown = document.createElement("div");
+    breakdown.id = "studyguard-breakdown";
+    breakdown.hidden = true;
 
     // A native expandable section provides keyboard-accessible controls.
     const previewSection = document.createElement("details");
@@ -205,6 +265,7 @@ if (typeof module !== "undefined") {
 
       if (!chatInput) {
         previewSection.hidden = true;
+        breakdown.hidden = true;
         preview.value = "";
         status.textContent = "Could not find the chat input.";
         return;
@@ -220,8 +281,20 @@ if (typeof module !== "undefined") {
       });
       console.log("StudyGuard analysis:", analysis); // inspect in DevTools
 
+      // Word-by-word explanation. Only shown when the prompt needs more effort.
+      const explanation = StudyGuardPerturbation.explainPrompt(question, {
+        attempt: studentAttempt,
+      });
+      if (explanation.blocked) {
+        renderBreakdown(breakdown, question, explanation);
+        breakdown.hidden = false;
+      } else {
+        breakdown.hidden = true;
+      }
+
       if (!question) {
         previewSection.hidden = true;
+        breakdown.hidden = true;
         preview.value = "";
         status.textContent = "Type your question in ChatGPT’s input first.";
         return;
@@ -254,6 +327,7 @@ if (typeof module !== "undefined") {
       levelNote,
       prepareButton,
       status,
+      breakdown,
       previewSection
     );
     return panel;
@@ -292,6 +366,7 @@ if (typeof module !== "undefined") {
       panel.querySelector("#studyguard-preview").value = "";
       panel.querySelector("#studyguard-preview-section").hidden = true;
       panel.querySelector("#studyguard-hint-status").textContent = "";
+      panel.querySelector("#studyguard-breakdown").hidden = true;
       panel.dataset.conversationPath = currentPath;
     }
 

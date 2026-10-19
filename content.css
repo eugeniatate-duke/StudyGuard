@@ -148,3 +148,38 @@
   font-size: 12px;
   color: #526359;
 }
+
+/* Word-importance view (Step 2) */
+#studyguard-panel #studyguard-breakdown {
+  margin-top: 12px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #ccd9d1;
+  border-radius: 8px;
+}
+
+#studyguard-panel .studyguard-breakdown-title {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+#studyguard-panel .studyguard-breakdown-text {
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+#studyguard-panel .studyguard-word-red {
+  border-bottom: 2px solid #b03030;
+  border-radius: 3px;
+}
+
+#studyguard-panel .studyguard-word-green {
+  border-bottom: 2px dotted #1f7a4d;
+  border-radius: 3px;
+}
+
+#studyguard-panel .studyguard-breakdown-legend {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #526359;
+}
