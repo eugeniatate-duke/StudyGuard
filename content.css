@@ -209,3 +209,51 @@
   font-size: 12px;
   color: #526359;
 }
+
+/* Soft block (Step 4) */
+#studyguard-panel .studyguard-softblock {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: #fff7e6;
+  border: 1px solid #e0b252;
+  border-radius: 8px;
+}
+
+#studyguard-panel .studyguard-softblock-title {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+#studyguard-panel .studyguard-softblock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Send anyway: clearly visible secondary button */
+#studyguard-panel .studyguard-send-anyway {
+  background: #ffffff;
+  color: #1f3d2b;
+  border: 1px solid #1f6b45;
+}
+
+/* Compact layout: keep the panel from taking over the page */
+#studyguard-panel #studyguard-attempt {
+  height: 52px;
+  min-height: 52px;
+}
+
+#studyguard-panel #studyguard-breakdown {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* The hold card stays pinned at the top while the explanation scrolls */
+#studyguard-panel .studyguard-softblock {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  font-size: 13px;
+  padding: 8px 10px;
+}

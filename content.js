@@ -1,3 +1,4 @@
+
 const HINT_LEVELS = {
   1: {
     label: "Level 1: Conceptual nudge",
@@ -42,9 +43,12 @@ if (typeof module !== "undefined") {
 (() => {
   const panelId = "studyguard-panel";
 
-  // Match the editable input shown in your screenshots.
-  const inputSelector =
-    '[contenteditable="true"][role="textbox"][data-composer-markdown]';
+  // Which chat site are we on? (ChatGPT or Claude; see sites.js)
+  const site = StudyGuardSites.getAdapter(window.location.hostname);
+  if (!site) return; // not a supported chat site, so do nothing
+
+  // The message-box selectors now come from the site adapter.
+  const inputSelector = site.inputSelectors.join(", ");
 
   let studyModeEnabled = false;
   let updateScheduled = false;
@@ -152,6 +156,139 @@ if (typeof module !== "undefined") {
     box.append(note);
 
     container.append(box);
+  }
+
+  // Runs the word-importance and advice steps and draws them into `breakdown`.
+  // Shared by the "Prepare a hint request" button and the submit gate below.
+  function renderAnalysis(breakdown, question, studentAttempt) {
+    const explanation = StudyGuardPerturbation.explainPrompt(question, {
+      attempt: studentAttempt,
+    });
+    if (explanation.blocked) {
+      renderBreakdown(breakdown, question, explanation);
+      renderHint(
+        breakdown,
+        StudyGuardCounterfactual.generateHint(question, {
+          attempt: studentAttempt,
+        })
+      );
+      breakdown.hidden = false;
+    } else {
+      breakdown.hidden = true;
+    }
+    return explanation;
+  }
+
+  // ---- Step 4: soft block on submit ---------------------------------------
+
+  // After "Send anyway", submits are allowed until this time (milliseconds).
+  let bypassUntil = 0;
+
+  // Local, text-free log of what happened at each submit (see eventlog.js).
+  const eventLog = StudyGuardEventLog.createEventLog(chrome.storage.local);
+
+  function recordEvent(action, analysis) {
+    const event = {
+      action,
+      site: site.name,
+      score: analysis.score,
+      signalIds: analysis.signals.map((s) => s.id),
+    };
+    console.log("StudyGuard event:", event); // visible in DevTools for testing
+    eventLog
+      .add(event)
+      .catch((error) => console.error("StudyGuard could not log:", error));
+  }
+
+  // The "Hold on" card shown at the top of the breakdown when a send is paused.
+  function renderSoftBlock(container, verdict) {
+    const box = document.createElement("div");
+    box.className = "studyguard-softblock";
+    box.setAttribute("role", "alert");
+
+    const title = document.createElement("p");
+    title.className = "studyguard-softblock-title";
+    title.textContent = "Hold on before you send this";
+
+    const reason = document.createElement("p");
+    reason.textContent = verdict.reason;
+
+    const actions = document.createElement("div");
+    actions.className = "studyguard-softblock-actions";
+
+    const addButton = document.createElement("button");
+    addButton.type = "button";
+    addButton.textContent = "Add my own thinking";
+    addButton.addEventListener("click", () => {
+      document.getElementById("studyguard-attempt")?.focus();
+    });
+
+    const sendButton = document.createElement("button");
+    sendButton.type = "button";
+    sendButton.className = "studyguard-send-anyway";
+    sendButton.textContent = "Send anyway";
+    sendButton.addEventListener("click", () => sendAnyway(verdict));
+
+    actions.append(addButton, sendButton);
+    box.append(title, reason, actions);
+    container.prepend(box);
+  }
+
+  // The student chose to send despite the pause. Record it, then click the
+  // site's own Send button on their behalf.
+  function sendAnyway(verdict) {
+    recordEvent("sent_anyway", verdict.analysis);
+    bypassUntil = Date.now() + 10000; // let the next send through
+
+    const panel = document.getElementById(panelId);
+    const status = panel?.querySelector("#studyguard-hint-status");
+    const breakdown = panel?.querySelector("#studyguard-breakdown");
+    const input = findVisibleChatInput();
+    const button = input ? StudyGuardSites.findSendButton(site, input) : null;
+
+    if (button) {
+      button.click();
+      bypassUntil = Date.now() + 1500; // the click is done; close the window quickly
+      if (breakdown) breakdown.hidden = true;
+      if (status) {
+        status.textContent =
+          "Sent. StudyGuard recorded that you chose to send anyway.";
+      }
+    } else if (status) {
+      status.textContent =
+        "Press Send in the chat box now. StudyGuard will let it through.";
+    }
+  }
+
+  // Called by the interceptor each time the student tries to send.
+  // Returns { hold: true } to pause the send, { hold: false } to let it go.
+  function handleSubmitAttempt() {
+    if (!studyModeEnabled) return { hold: false };
+    if (Date.now() < bypassUntil) return { hold: false };
+
+    const panel = document.getElementById(panelId);
+    const input = findVisibleChatInput();
+    if (!panel || !input) return { hold: false }; // can't help, so don't interfere
+
+    const question = input.innerText.trim();
+    if (!question) return { hold: false };
+
+    const attemptText = panel.querySelector("#studyguard-attempt").value.trim();
+    const verdict = StudyGuardGate.evaluateSubmission(question, {
+      attempt: attemptText,
+    });
+
+    if (!verdict.hold) {
+      recordEvent("passed", verdict.analysis);
+      return { hold: false };
+    }
+
+    recordEvent("held", verdict.analysis);
+    const breakdown = panel.querySelector("#studyguard-breakdown");
+    renderAnalysis(breakdown, question, attemptText);
+    renderSoftBlock(breakdown, verdict);
+    panel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    return { hold: true };
   }
 
   function createPanel() {
@@ -317,21 +454,7 @@ if (typeof module !== "undefined") {
       });
       console.log("StudyGuard analysis:", analysis); // inspect in DevTools
 
-      // Word-by-word explanation. Only shown when the prompt needs more effort.
-      const explanation = StudyGuardPerturbation.explainPrompt(question, {
-        attempt: studentAttempt,
-      });
-      if (explanation.blocked) {
-        renderBreakdown(breakdown, question, explanation);
-        // NEW: counterfactual advice, shown under the word breakdown.
-        const hint = StudyGuardCounterfactual.generateHint(question, {
-          attempt: studentAttempt,
-        });
-        renderHint(breakdown, hint);
-        breakdown.hidden = false;
-      } else {
-        breakdown.hidden = true;
-      }
+      renderAnalysis(breakdown, question, studentAttempt);
 
       if (!question) {
         previewSection.hidden = true;
@@ -386,7 +509,7 @@ if (typeof module !== "undefined") {
     // Find the first matching input that actually occupies visible space.
     const input = findVisibleChatInput();
 
-    const form = input?.closest("form");
+    const form = input ? StudyGuardSites.findAnchor(site, input) : null;
 
     // Hide our panel if the expected input or form isn't available.
     if (!form) {
@@ -468,5 +591,19 @@ if (typeof module !== "undefined") {
     ],
   });
 
+  // Watch for Enter and Send-button clicks. The check on isSendButton makes
+  // sure the button belongs to the message box (not, say, "Send feedback").
+  StudyGuardInterceptor.install(document, {
+    getInput: findVisibleChatInput,
+    isSendButton: (button) => {
+      if (!StudyGuardSites.isSendButton(site, button)) return false;
+      const input = findVisibleChatInput();
+      const anchor = input ? StudyGuardSites.findAnchor(site, input) : null;
+      return !!anchor && anchor.contains(button);
+    },
+    isInsidePanel: (el) => !!el.closest("#" + panelId),
+    onSubmit: handleSubmitAttempt,
+  });
+  
   syncSettings();
 })();
