@@ -57,3 +57,6 @@ venv/
 *.crx
 *.log
 python/predictions.json
+
+# Packaged builds
+dist/
