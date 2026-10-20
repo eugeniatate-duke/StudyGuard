@@ -125,13 +125,35 @@
   // words, so it is never written to storage).
   let latestMap = null;
 
+  // If the extension is reloaded while this tab stays open, Chrome cuts this
+  // old copy off ("Extension context invalidated") and every chrome.* call
+  // throws. Scoring and the hold card need none of those calls, so we catch
+  // them: the soft block still works, and we ask the student to reload the tab.
+  let extensionStale = false;
+
+  function safeChrome(action) {
+    try {
+      const result = action();
+      if (result && typeof result.catch === "function") {
+        result.catch((error) => {
+          if (/context invalidated/i.test(String(error))) extensionStale = true;
+        });
+      }
+      return result;
+    } catch (error) {
+      if (/context invalidated/i.test(String(error))) extensionStale = true;
+      else console.error("StudyGuard:", error);
+      return undefined;
+    }
+  }
+
   function publishMap(analysis, explanation, hint) {
     latestMap = StudyGuardMap.buildMap(analysis, explanation, hint);
     // If the side panel is open it receives this; if not, the call is
     // rejected, which is fine.
-    chrome.runtime
-      .sendMessage({ type: "studyguard:map", map: latestMap })
-      .catch(() => {});
+    safeChrome(() =>
+      chrome.runtime.sendMessage({ type: "studyguard:map", map: latestMap })
+    );
   }
 
   // The side panel asks for the latest map when it opens.
@@ -178,9 +200,11 @@
       signalIds: analysis.signals.map((s) => s.id),
     };
     console.log("StudyGuard event:", event); // visible in DevTools for testing
-    eventLog
-      .add(event)
-      .catch((error) => console.error("StudyGuard could not log:", error));
+    safeChrome(() =>
+      eventLog
+        .add(event)
+        .catch((error) => console.error("StudyGuard could not log:", error))
+    );
   }
 
   // The "Hold on" card shown at the top of the breakdown when a send is paused.
@@ -256,19 +280,21 @@
   const journal = StudyGuardJournal.createJournal(chrome.storage.local);
 
   function recordJournal(action, verdict) {
-    journal
-      .add(
-        StudyGuardJournal.makeEntry({
-          action,
-          site: site.name,
-          question: verdict.question,
-          attempt: verdict.attempt,
-          map: verdict.map,
-        })
-      )
-      .catch((error) =>
-        console.error("StudyGuard could not save journal entry:", error)
-      );
+    safeChrome(() =>
+      journal
+        .add(
+          StudyGuardJournal.makeEntry({
+            action,
+            site: site.name,
+            question: verdict.question,
+            attempt: verdict.attempt,
+            map: verdict.map,
+          })
+        )
+        .catch((error) =>
+          console.error("StudyGuard could not save journal entry:", error)
+        )
+    );
   }
 
   function handleSubmitAttempt() {
@@ -329,7 +355,8 @@
     panel.querySelector("#studyguard-body").scrollTop = 0;
     setSummary(
       panel,
-      `Held. Score ${verdict.analysis.score}/100 (needs ${verdict.analysis.threshold}).`,
+      `Held. Score ${verdict.analysis.score}/100 (needs ${verdict.analysis.threshold}).` +
+        (extensionStale ? " StudyGuard was updated: reload this tab to restore logging." : ""),
       "warn"
     );
     setPanelOpen(panel, true);

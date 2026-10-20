@@ -51,8 +51,14 @@ Helps students notice and add their own thinking to prompts sent to ChatGPT and 
 - **Remote code:** none. All code is in the package.
 
 ## Data-use disclosures (dashboard form)
-- Collects user data: **no** (nothing leaves the device). If asked about "website content" or "user activity", answer that it is handled locally only and never transmitted.
-- Certify: not sold, not used for unrelated purposes, not used for creditworthiness.
+Chrome counts reading data as "handling" it even when it never leaves the device, so tick the types StudyGuard reads or stores locally:
+- [x] Personal communications (the prompt text in the chat box, read to score it; stored only if the student turns the journal on)
+- [x] User activity (the local event log: time, site, score, rule names, and whether a prompt was passed, held or sent anyway)
+- [x] Website content (the text of the message box on chatgpt.com and claude.ai)
+- Leave the other boxes unticked.
+- Tick all three certifications (no selling, no unrelated use, no creditworthiness use).
+- Remote code: **No**.
+- Trader status: **Non-trader** (free, non-commercial student project).
 
 ## Screenshots to upload (1280x800 or 640x400, up to 5)
 1. A held prompt with red words and the "Hold on" card (`docs/images/hero-soft-block.png`)
