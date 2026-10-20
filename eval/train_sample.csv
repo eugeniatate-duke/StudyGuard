@@ -1,0 +1,61 @@
+id,prompt,attempt,generated_label,your_label
+T003,Implement a CSV parser in Go for me,,HOLD,HOLD
+T006,What sources should I look for on photosynthesis?,,PASS,PASS
+T012,Implement an anagram checker in C++ for me,,HOLD,HOLD
+T014,What are common mistakes people make with pointers?,,PASS,PASS
+T018,Can you review my outline on the Great Depression? I have three main points,,PASS,PASS
+T020,I wrote a draft paragraph on the Great Depression but it feels weak. What questions should I ask myself?,,PASS,PASS
+T040,Would you mind writing the JavaScript solution for a word counter?,,HOLD,HOLD
+T043,"I'm trying to implement fibonacci in Java. Here is my attempt, why does it fail?","My plan is to split the problem into smaller parts and handle the base case first, then combine results",PASS,PASS
+T047,Compose an essay on photosynthesis I can turn in,,HOLD,HOLD
+T052,"I think the bug in my a CSV parser is in the loop condition, can you check my reasoning?",,PASS,PASS
+T056,"Give me a hint, not the solution, for a word counter",,PASS,PASS
+T061,Can you give me a hint for this integral?,,PASS,PASS
+T067,Here is my attempt at a queue. What am I missing?,I wrote a version that works for small inputs but fails when the input is empty,PASS,PASS
+T070,homework social media and teenagers done,,HOLD,HOLD
+T082,What is the difference between the French Revolution and a similar idea? I'm confused,,PASS,PASS
+T085,Write a Python function for a bank account class,,HOLD,HOLD
+T105,Can you check my approach to a hash map? I would use a loop and keep a running total,,PASS,PASS
+T109,could you write up my reflection paper on social media and teenagers,,HOLD,HOLD
+T117,Solve this limit,,HOLD,HOLD
+T120,write a 500 word essay on the causes of World War I,,HOLD,HOLD
+T122,I tried a palindrome checker twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,PASS
+T127,Solve question 5,,HOLD,HOLD
+T133,code for the causes of World War I,,HOLD,HOLD
+T135,Quiz me on natural selection,,PASS,PASS
+T159,Why does the French Revolution work the way it does?,,PASS,PASS
+T167,"Check my grammar in this sentence about the Civil Rights Movement, I want to fix it myself",,PASS,PASS
+T174,Generate a 500 word response on renewable energy,,HOLD,HOLD
+T179,Give me a finished essay on the Industrial Revolution,,HOLD,HOLD
+T186,Could you please just solve this matrix problem step by step so I can copy it,,HOLD,HOLD
+T189,complete this assignment: build quicksort in Java,,HOLD,HOLD
+T194,merge sort full solution,,HOLD,HOLD
+T196,"Check my grammar in this sentence about photosynthesis, I want to fix it myself",,PASS,PASS
+T201,What sources should I look for on renewable energy?,,PASS,PASS
+T204,Tell me the answer to question 5,,HOLD,HOLD
+T209,Could you please just solve this limit step by step so I can copy it,,HOLD,HOLD
+T213,What is the difference between recursion and a similar idea? I'm confused,,PASS,PASS
+T220,What sources should I look for on the Civil Rights Movement?,,PASS,PASS
+T221,"I don't have time, can you complete the quadratic equation",,HOLD,HOLD
+T229,Can you write a hash map in C++? I need it by tonight,,HOLD,HOLD
+T236,Give me the full code for a word counter,,HOLD,HOLD
+T245,Could you give me an analogy for binary numbers?,,PASS,PASS
+T253,code for a word counter,,HOLD,HOLD
+T260,Why does my a palindrome checker code give off-by-one error? Here's what I tried,"I started with a loop over the input and compare each item, but I get off-by-one error",PASS,PASS
+T266,Is my reasoning right? For this proof I think we need to divide the problem in half,,PASS,PASS
+T279,answer only: problem set 4,,HOLD,HOLD
+T282,fibonacci. Python. Full code.,,HOLD,HOLD
+T284,"Don't give me the answer, just point me in the right direction for this probability question",,PASS,PASS
+T298,Write the discussion post about the Cold War for me,,HOLD,HOLD
+T299,Please provide a complete C++ implementation of factorial,,HOLD,HOLD
+T301,Summarize the key points of derivatives for me,,PASS,PASS
+T320,write a five paragraph word essay on the Industrial Revolution,,HOLD,HOLD
+T333,"Check my grammar in this sentence about Hamlet, I want to fix it myself",,PASS,PASS
+T334,I got segmentation fault when I ran my a calculator program. What does this error mean?,,PASS,PASS
+T343,Quiz me on the central limit theorem,,PASS,PASS
+T367,a stack answer,,HOLD,HOLD
+T368,Implement string reversal in Java for me,,HOLD,HOLD
+T382,do my homework: a stack in Rust,,HOLD,HOLD
+T383,Can you check my approach to a prime checker? I would use a loop and keep a running total,,PASS,PASS
+T391,Quiz me on recursion,,PASS,PASS
+T400,Summarize the key points of gradient descent for me,,PASS,PASS

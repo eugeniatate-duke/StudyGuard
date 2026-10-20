@@ -1,0 +1,401 @@
+id,prompt,attempt,label,category
+T001,Quiz me on closures,,PASS,conceptual
+T002,Answer this probability question for me,,HOLD,answer_request
+T003,Implement a CSV parser in Go for me,,HOLD,code_request
+T004,"i need the code for binary search, just the code no explanation",,HOLD,code_request
+T005,Could you please just solve exercise 2.4 step by step so I can copy it,,HOLD,answer_request
+T006,What sources should I look for on photosynthesis?,,PASS,feedback_request
+T007,answer only: the quadratic equation,,HOLD,answer_request
+T008,I got RecursionError when I ran my merge sort program. What does this error mean?,"First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T009,a queue answer,,HOLD,terse_request
+T010,"I think the bug in my a temperature converter is in the loop condition, can you check my reasoning?","I tried a for loop and a counter variable, however the output is always the same value",PASS,attempt_shown
+T011,"Give me a hint, not the solution, for a calculator",,PASS,hint_request
+T012,Implement an anagram checker in C++ for me,,HOLD,code_request
+T013,Please do exercise 2.4 for me,,HOLD,answer_request
+T014,What are common mistakes people make with pointers?,,PASS,conceptual
+T015,I got NameError when I ran my matrix multiplication program. What does this error mean?,,PASS,attempt_shown
+T016,What are common mistakes people make with binary numbers?,,PASS,conceptual
+T017,"I'm trying to implement a to-do list app in Go. Here is my attempt, why does it fail?","First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T018,Can you review my outline on the Great Depression? I have three main points,,PASS,feedback_request
+T019,a to-do list app answer,,HOLD,terse_request
+T020,I wrote a draft paragraph on the Great Depression but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T021,Here is my thesis about the causes of World War I: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T022,Create a program that does a word counter and send me the whole thing,,HOLD,code_request
+T023,Please draft the full essay about renewable energy for me,,HOLD,essay_request
+T024,Write my essay on Hamlet,,HOLD,essay_request
+T025,What are common mistakes people make with recursion?,,PASS,conceptual
+T026,What is the difference between cell respiration and a similar idea? I'm confused,,PASS,conceptual
+T027,Create a program that does an anagram checker and send me the whole thing,,HOLD,code_request
+T028,Show me the finished code for a palindrome checker,,HOLD,code_request
+T029,Please provide a complete Go implementation of a to-do list app,,HOLD,code_request
+T030,Help me brainstorm questions to research about climate change,,PASS,feedback_request
+T031,Could you give me an analogy for big O notation?,,PASS,conceptual
+T032,Is my reasoning right? For this derivative I think we need to divide the problem in half,,PASS,hint_request
+T033,I tried this derivative twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,hint_request
+T034,Can you write a temperature converter in Go? I need it by tonight,,HOLD,code_request
+T035,What are some angles I could take for an essay on Macbeth?,,PASS,feedback_request
+T036,write a 500 word essay on photosynthesis,,HOLD,essay_request
+T037,"I'm trying to implement depth first search in Rust. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T038,Here is my attempt at depth first search. What am I missing?,,PASS,attempt_shown
+T039,do my homework: merge sort in C++,,HOLD,code_request
+T040,Would you mind writing the JavaScript solution for a word counter?,,HOLD,code_request
+T041,answer only: this probability question,,HOLD,answer_request
+T042,wrte me a func for Hamlet,,HOLD,terse_request
+T043,"I'm trying to implement fibonacci in Java. Here is my attempt, why does it fail?","My plan is to split the problem into smaller parts and handle the base case first, then combine results",PASS,attempt_shown
+T044,Please provide a complete Java implementation of a tic tac toe game,,HOLD,code_request
+T045,Can you write a CSV parser in C? I need it by tonight,,HOLD,code_request
+T046,a binary tree full solution,,HOLD,terse_request
+T047,Compose an essay on photosynthesis I can turn in,,HOLD,essay_request
+T048,Generate a 1000 word response on Hamlet,,HOLD,essay_request
+T049,Implement a palindrome checker in Java for me,,HOLD,code_request
+T050,"I'm trying to implement a to-do list app in Rust. Here is my attempt, why does it fail?","First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T051,I got KeyError when I ran my a hash map program. What does this error mean?,,PASS,attempt_shown
+T052,"I think the bug in my a CSV parser is in the loop condition, can you check my reasoning?",,PASS,attempt_shown
+T053,I wrote a draft paragraph on Macbeth but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T054,Why does my a to-do list app code give stack overflow? Here's what I tried,"I tried a for loop and a counter variable, however the output is always the same value",PASS,attempt_shown
+T055,I wrote a draft paragraph on the causes of World War I but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T056,"Give me a hint, not the solution, for a word counter",,PASS,hint_request
+T057,Could you give me an analogy for the French Revolution?,,PASS,conceptual
+T058,"I'm trying to implement a prime checker in Rust. Here is my attempt, why does it fail?","I started with a loop over the input and compare each item, but I get off-by-one error",PASS,attempt_shown
+T059,finish this: merge sort,,HOLD,terse_request
+T060,Implement quicksort in Java for me,,HOLD,code_request
+T061,Can you give me a hint for this integral?,,PASS,hint_request
+T062,Create a program that does a CSV parser and send me the whole thing,,HOLD,code_request
+T063,a calculator. Python. Full code.,,HOLD,code_request
+T064,Why does recursion work the way it does?,,PASS,conceptual
+T065,write me code for a hash map in Rust,,HOLD,code_request
+T066,"Don't give me the answer, just point me in the right direction for binary search",,PASS,hint_request
+T067,Here is my attempt at a queue. What am I missing?,I wrote a version that works for small inputs but fails when the input is empty,PASS,attempt_shown
+T068,Is my reasoning right? For a binary tree I think we need to divide the problem in half,,PASS,hint_request
+T069,Here is my thesis about renewable energy: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T070,homework social media and teenagers done,,HOLD,terse_request
+T071,answer only: problem 3,,HOLD,answer_request
+T072,Dame el código completo para a binary tree,,HOLD,terse_request
+T073,What are common mistakes people make with opportunity cost?,,PASS,conceptual
+T074,write me code for string reversal in C++,,HOLD,code_request
+T075,Why does my matrix multiplication code give TypeError: unsupported operand type? Here's what I tried,,PASS,attempt_shown
+T076,Please provide a complete JavaScript implementation of a palindrome checker,,HOLD,code_request
+T077,"I don't have time, can you complete this integral",,HOLD,answer_request
+T078,Please draft the full essay about the Industrial Revolution for me,,HOLD,essay_request
+T079,Show me the finished code for quicksort,,HOLD,code_request
+T080,Quiz me on the Pythagorean theorem,,PASS,conceptual
+T081,Here is my attempt at binary search. What am I missing?,I wrote a version that works for small inputs but fails when the input is empty,PASS,attempt_shown
+T082,What is the difference between the French Revolution and a similar idea? I'm confused,,PASS,conceptual
+T083,I tried a tic tac toe game twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,hint_request
+T084,Generate a 500 word response on artificial intelligence ethics,,HOLD,essay_request
+T085,Write a Python function for a bank account class,,HOLD,code_request
+T086,Give me a finished essay on the causes of World War I,,HOLD,essay_request
+T087,Write the discussion post about Hamlet for me,,HOLD,essay_request
+T088,a temperature converter. C++. Full code.,,HOLD,code_request
+T089,Generate Java code for bubble sort,,HOLD,code_request
+T090,"i need the code for an anagram checker, just the code no explanation",,HOLD,code_request
+T091,a tic tac toe game answer,,HOLD,terse_request
+T092,"I think the bug in my a bank account class is in the loop condition, can you check my reasoning?",I wrote a version that works for small inputs but fails when the input is empty,PASS,attempt_shown
+T093,Create a program that does a temperature converter and send me the whole thing,,HOLD,code_request
+T094,"I think the bug in my a hash map is in the loop condition, can you check my reasoning?",,PASS,attempt_shown
+T095,write me code for binary search in Rust,,HOLD,code_request
+T096,write me code for depth first search in C,,HOLD,code_request
+T097,I'm stuck on quicksort. What should I think about first?,,PASS,hint_request
+T098,Dame el código completo para climate change,,HOLD,terse_request
+T099,Show me the finished code for a tic tac toe game,,HOLD,code_request
+T100,"Check my grammar in this sentence about social media and teenagers, I want to fix it myself",,PASS,feedback_request
+T101,Just give me the answer to exercise 2.4,,HOLD,answer_request
+T102,Can you give me a hint for this limit?,,PASS,hint_request
+T103,"I don't have time, can you complete this limit",,HOLD,answer_request
+T104,Give me the solution for exercise 2.4,,HOLD,answer_request
+T105,Can you check my approach to a hash map? I would use a loop and keep a running total,,PASS,hint_request
+T106,Generate C code for a linked list,,HOLD,code_request
+T107,Can you write a 1000 word paper about renewable energy?,,HOLD,essay_request
+T108,I got NameError when I ran my a CSV parser program. What does this error mean?,"I started with a loop over the input and compare each item, but I get NameError",PASS,attempt_shown
+T109,could you write up my reflection paper on social media and teenagers,,HOLD,essay_request
+T110,Quiz me on inheritance in OOP,,PASS,conceptual
+T111,I read the chapter on inheritance in OOP but don't understand the example. How does it work?,,PASS,conceptual
+T112,I tried this proof twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,hint_request
+T113,Here is my attempt at a calculator. What am I missing?,"I started with a loop over the input and compare each item, but I get RecursionError",PASS,attempt_shown
+T114,Is my reasoning right? For binary search I think we need to divide the problem in half,,PASS,hint_request
+T115,Please draft the full essay about the French Revolution for me,,HOLD,essay_request
+T116,Can you write a to-do list app in Python? I need it by tonight,,HOLD,code_request
+T117,Solve this limit,,HOLD,answer_request
+T118,Generate a 1000 word response on the French Revolution,,HOLD,essay_request
+T119,Write a C function for a CSV parser,,HOLD,code_request
+T120,write a 500 word essay on the causes of World War I,,HOLD,essay_request
+T121,What is the difference between photosynthesis and a similar idea? I'm confused,,PASS,conceptual
+T122,I tried a palindrome checker twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,hint_request
+T123,write me code for a stack in Rust,,HOLD,code_request
+T124,Compose an essay on the Great Depression I can turn in,,HOLD,essay_request
+T125,Is my reasoning right? For depth first search I think we need to divide the problem in half,,PASS,hint_request
+T126,Would you mind writing the Go solution for a hash map?,,HOLD,code_request
+T127,Solve question 5,,HOLD,answer_request
+T128,I wrote a draft paragraph on the French Revolution but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T129,I got KeyError when I ran my a palindrome checker program. What does this error mean?,,PASS,attempt_shown
+T130,"I think the bug in my quicksort is in the loop condition, can you check my reasoning?","I started with a loop over the input and compare each item, but I get IndexError: list index out of range",PASS,attempt_shown
+T131,Solve this integral,,HOLD,answer_request
+T132,Can you write string reversal in Go? I need it by tonight,,HOLD,code_request
+T133,code for the causes of World War I,,HOLD,terse_request
+T134,What is the first step for fibonacci? I want to try it myself,,PASS,hint_request
+T135,Quiz me on natural selection,,PASS,conceptual
+T136,solve problem 3 and show the full solution,,HOLD,answer_request
+T137,Here is my thesis about artificial intelligence ethics: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T138,Why does Newton's third law work the way it does?,,PASS,conceptual
+T139,I wrote a draft paragraph on Hamlet but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T140,How would I know when to use supply and demand?,,PASS,conceptual
+T141,What sources should I look for on artificial intelligence ethics?,,PASS,feedback_request
+T142,What is the difference between inheritance in OOP and a similar idea? I'm confused,,PASS,conceptual
+T143,How would I know when to use photosynthesis?,,PASS,conceptual
+T144,Here is my attempt at string reversal. What am I missing?,"I tried a for loop and a counter variable, however the output is always the same value",PASS,attempt_shown
+T145,Write the discussion post about the causes of World War I for me,,HOLD,essay_request
+T146,"I'm trying to implement binary search in Java. Here is my attempt, why does it fail?","First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T147,Answer this derivative for me,,HOLD,answer_request
+T148,Write my essay on Macbeth,,HOLD,essay_request
+T149,I think the central limit theorem means the opposite of what the book says. Am I right?,,PASS,conceptual
+T150,could you write up my reflection paper on the Cold War,,HOLD,essay_request
+T151,"I'm trying to implement a tic tac toe game in Java. Here is my attempt, why does it fail?","First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T152,What are some angles I could take for an essay on the Cold War?,,PASS,feedback_request
+T153,renewable energy full solution,,HOLD,terse_request
+T154,a linked list essay 500 words,,HOLD,terse_request
+T155,Write my essay on social media and teenagers,,HOLD,essay_request
+T156,a calculator. C. Full code.,,HOLD,code_request
+T157,write a five paragraph word essay on the causes of World War I,,HOLD,essay_request
+T158,a calculator. JavaScript. Full code.,,HOLD,code_request
+T159,Why does the French Revolution work the way it does?,,PASS,conceptual
+T160,Generate a five paragraph word response on the Civil Rights Movement,,HOLD,essay_request
+T161,What is the first step for string reversal? I want to try it myself,,PASS,hint_request
+T162,homework the Great Depression done,,HOLD,terse_request
+T163,Could you please just solve this probability question step by step so I can copy it,,HOLD,answer_request
+T164,Please provide a complete C++ implementation of a hash map,,HOLD,code_request
+T165,I need a ready-to-submit report on Hamlet,,HOLD,essay_request
+T166,quicksort answer,,HOLD,terse_request
+T167,"Check my grammar in this sentence about the Civil Rights Movement, I want to fix it myself",,PASS,feedback_request
+T168,How would I know when to use inheritance in OOP?,,PASS,conceptual
+T169,Write a Rust function for a bank account class,,HOLD,code_request
+T170,Please do question 5 for me,,HOLD,answer_request
+T171,Here is my attempt at a hash map. What am I missing?,,PASS,attempt_shown
+T172,"i need the code for a word counter, just the code no explanation",,HOLD,code_request
+T173,"Give me a hint, not the solution, for an anagram checker",,PASS,hint_request
+T174,Generate a 500 word response on renewable energy,,HOLD,essay_request
+T175,solve this probability question and show the full solution,,HOLD,answer_request
+T176,"I'm trying to implement a word counter in Java. Here is my attempt, why does it fail?","I started with a loop over the input and compare each item, but I get IndexError: list index out of range",PASS,attempt_shown
+T177,"I'm trying to implement a stack in Python. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T178,What is the first step for depth first search? I want to try it myself,,PASS,hint_request
+T179,Give me a finished essay on the Industrial Revolution,,HOLD,essay_request
+T180,Why does my quicksort code give infinite loop? Here's what I tried,"First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T181,What sources should I look for on climate change?,,PASS,feedback_request
+T182,I need a ready-to-submit report on artificial intelligence ethics,,HOLD,essay_request
+T183,a hash map full solution,,HOLD,terse_request
+T184,Here is my thesis about social media and teenagers: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T185,solve exercise 2.4 and show the full solution,,HOLD,answer_request
+T186,Could you please just solve this matrix problem step by step so I can copy it,,HOLD,answer_request
+T187,Create a program that does merge sort and send me the whole thing,,HOLD,code_request
+T188,Can you check my approach to merge sort? I would use a loop and keep a running total,,PASS,hint_request
+T189,complete this assignment: build quicksort in Java,,HOLD,code_request
+T190,Create a program that does a calculator and send me the whole thing,,HOLD,code_request
+T191,What are some angles I could take for an essay on social media and teenagers?,,PASS,feedback_request
+T192,Just give me the answer to this probability question,,HOLD,answer_request
+T193,"I think the bug in my a palindrome checker is in the loop condition, can you check my reasoning?",,PASS,attempt_shown
+T194,merge sort full solution,,HOLD,terse_request
+T195,Why does opportunity cost work the way it does?,,PASS,conceptual
+T196,"Check my grammar in this sentence about photosynthesis, I want to fix it myself",,PASS,feedback_request
+T197,"I think the bug in my a queue is in the loop condition, can you check my reasoning?","First I read the input, then I check each element against the target, and I return the index if it matches",PASS,attempt_shown
+T198,solve this system of equations and show the full solution,,HOLD,answer_request
+T199,bubble sort answer,,HOLD,terse_request
+T200,I got IndexError: list index out of range when I ran my a linked list program. What does this error mean?,I wrote a version that works for small inputs but fails when the input is empty,PASS,attempt_shown
+T201,What sources should I look for on renewable energy?,,PASS,feedback_request
+T202,What are some angles I could take for an essay on climate change?,,PASS,feedback_request
+T203,complete this assignment: build a bank account class in Go,,HOLD,code_request
+T204,Tell me the answer to question 5,,HOLD,answer_request
+T205,"Don't give me the answer, just point me in the right direction for this matrix problem",,PASS,hint_request
+T206,Generate a two page word response on the causes of World War I,,HOLD,essay_request
+T207,quicksort full solution,,HOLD,terse_request
+T208,Help me brainstorm questions to research about the Civil Rights Movement,,PASS,feedback_request
+T209,Could you please just solve this limit step by step so I can copy it,,HOLD,answer_request
+T210,Give me the solution for this word problem,,HOLD,answer_request
+T211,What is the first step for factorial? I want to try it myself,,PASS,hint_request
+T212,do my homework: a binary tree in Go,,HOLD,code_request
+T213,What is the difference between recursion and a similar idea? I'm confused,,PASS,conceptual
+T214,complete this assignment: build a binary tree in Rust,,HOLD,code_request
+T215,"I think the bug in my string reversal is in the loop condition, can you check my reasoning?",,PASS,attempt_shown
+T216,"I'm trying to implement a bank account class in JavaScript. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T217,I'm stuck on a bank account class. What should I think about first?,,PASS,hint_request
+T218,wrte me a func for an anagram checker,,HOLD,terse_request
+T219,What sources should I look for on the Cold War?,,PASS,feedback_request
+T220,What sources should I look for on the Civil Rights Movement?,,PASS,feedback_request
+T221,"I don't have time, can you complete the quadratic equation",,HOLD,answer_request
+T222,Can you check my approach to a stack? I would use a loop and keep a running total,,PASS,hint_request
+T223,What sources should I look for on Hamlet?,,PASS,feedback_request
+T224,Can you check my approach to exercise 2.4? I would use a loop and keep a running total,,PASS,hint_request
+T225,Compose an essay on the French Revolution I can turn in,,HOLD,essay_request
+T226,Could you give me an analogy for the Pythagorean theorem?,,PASS,conceptual
+T227,Help me brainstorm questions to research about the Great Depression,,PASS,feedback_request
+T228,What is the final answer to the quadratic equation? no explanation,,HOLD,answer_request
+T229,Can you write a hash map in C++? I need it by tonight,,HOLD,code_request
+T230,Here is my attempt at a stack. What am I missing?,"My plan is to split the problem into smaller parts and handle the base case first, then combine results",PASS,attempt_shown
+T231,Could you please just solve problem set 4 step by step so I can copy it,,HOLD,answer_request
+T232,Dame el código completo para a temperature converter,,HOLD,terse_request
+T233,Quiz me on supply and demand,,PASS,conceptual
+T234,"I'm trying to implement a temperature converter in JavaScript. Here is my attempt, why does it fail?","My plan is to split the problem into smaller parts and handle the base case first, then combine results",PASS,attempt_shown
+T235,"Give me a hint, not the solution, for a stack",,PASS,hint_request
+T236,Give me the full code for a word counter,,HOLD,code_request
+T237,a word counter essay 500 words,,HOLD,terse_request
+T238,"I think the bug in my binary search is in the loop condition, can you check my reasoning?","I started with a loop over the input and compare each item, but I get syntax error on line 12",PASS,attempt_shown
+T239,What is the difference between the central limit theorem and a similar idea? I'm confused,,PASS,conceptual
+T240,Create a program that does matrix multiplication and send me the whole thing,,HOLD,code_request
+T241,I need a ready-to-submit report on the French Revolution,,HOLD,essay_request
+T242,What are common mistakes people make with big O notation?,,PASS,conceptual
+T243,could you write up my reflection paper on the French Revolution,,HOLD,essay_request
+T244,I wrote a draft paragraph on photosynthesis but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T245,Could you give me an analogy for binary numbers?,,PASS,conceptual
+T246,I read the chapter on hash tables but don't understand the example. How does it work?,,PASS,conceptual
+T247,Why does my a binary tree code give RecursionError? Here's what I tried,,PASS,attempt_shown
+T248,What sources should I look for on the French Revolution?,,PASS,feedback_request
+T249,What sources should I look for on the Great Depression?,,PASS,feedback_request
+T250,"Give me a hint, not the solution, for depth first search",,PASS,hint_request
+T251,Would you mind writing the Go solution for a tic tac toe game?,,HOLD,code_request
+T252,Write my essay on Shakespeare's sonnets,,HOLD,essay_request
+T253,code for a word counter,,HOLD,terse_request
+T254,Compose an essay on climate change I can turn in,,HOLD,essay_request
+T255,Can you review my outline on Shakespeare's sonnets? I have three main points,,PASS,feedback_request
+T256,write a 800 word essay on the causes of World War I,,HOLD,essay_request
+T257,Help me brainstorm questions to research about the Cold War,,PASS,feedback_request
+T258,"Don't give me the answer, just point me in the right direction for a tic tac toe game",,PASS,hint_request
+T259,Please do this limit for me,,HOLD,answer_request
+T260,Why does my a palindrome checker code give off-by-one error? Here's what I tried,"I started with a loop over the input and compare each item, but I get off-by-one error",PASS,attempt_shown
+T261,solve this limit and show the full solution,,HOLD,answer_request
+T262,Just give me the answer to problem 3,,HOLD,answer_request
+T263,Would you mind writing the Go solution for fibonacci?,,HOLD,code_request
+T264,finish this: artificial intelligence ethics,,HOLD,terse_request
+T265,I need a ready-to-submit report on Macbeth,,HOLD,essay_request
+T266,Is my reasoning right? For this proof I think we need to divide the problem in half,,PASS,hint_request
+T267,Show me the finished code for factorial,,HOLD,code_request
+T268,Write a C function for fibonacci,,HOLD,code_request
+T269,Why does cell respiration work the way it does?,,PASS,conceptual
+T270,Please draft the full essay about Hamlet for me,,HOLD,essay_request
+T271,Help me brainstorm questions to research about Hamlet,,PASS,feedback_request
+T272,"Give me a hint, not the solution, for quicksort",,PASS,hint_request
+T273,What is the difference between binary numbers and a similar idea? I'm confused,,PASS,conceptual
+T274,What is the final answer to problem set 4? no explanation,,HOLD,answer_request
+T275,Summarize the key points of recursion for me,,PASS,conceptual
+T276,write me code for a prime checker in JavaScript,,HOLD,code_request
+T277,code for Macbeth,,HOLD,terse_request
+T278,Generate a five paragraph word response on the Great Depression,,HOLD,essay_request
+T279,answer only: problem set 4,,HOLD,answer_request
+T280,Compose an essay on Shakespeare's sonnets I can turn in,,HOLD,essay_request
+T281,What sources should I look for on social media and teenagers?,,PASS,feedback_request
+T282,fibonacci. Python. Full code.,,HOLD,code_request
+T283,could you write up my reflection paper on renewable energy,,HOLD,essay_request
+T284,"Don't give me the answer, just point me in the right direction for this probability question",,PASS,hint_request
+T285,merge sort. Go. Full code.,,HOLD,code_request
+T286,write me code for matrix multiplication in Rust,,HOLD,code_request
+T287,Can you explain big O notation in simple terms?,,PASS,conceptual
+T288,answer only: this matrix problem,,HOLD,answer_request
+T289,Solve this proof,,HOLD,answer_request
+T290,Dame el código completo para photosynthesis,,HOLD,terse_request
+T291,Can you give me a hint for a prime checker?,,PASS,hint_request
+T292,Here is my thesis about photosynthesis: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T293,What is the first step for a CSV parser? I want to try it myself,,PASS,hint_request
+T294,Answer problem set 4 for me,,HOLD,answer_request
+T295,I'm stuck on fibonacci. What should I think about first?,,PASS,hint_request
+T296,What is the difference between derivatives and a similar idea? I'm confused,,PASS,conceptual
+T297,"I'm trying to implement a tic tac toe game in Python. Here is my attempt, why does it fail?","I tried a for loop and a counter variable, however the output is always the same value",PASS,attempt_shown
+T298,Write the discussion post about the Cold War for me,,HOLD,essay_request
+T299,Please provide a complete C++ implementation of factorial,,HOLD,code_request
+T300,could you write up my reflection paper on Macbeth,,HOLD,essay_request
+T301,Summarize the key points of derivatives for me,,PASS,conceptual
+T302,"I think the bug in my depth first search is in the loop condition, can you check my reasoning?",,PASS,attempt_shown
+T303,What sources should I look for on the Industrial Revolution?,,PASS,feedback_request
+T304,How would I know when to use derivatives?,,PASS,conceptual
+T305,Tell me the answer to this proof,,HOLD,answer_request
+T306,Help me brainstorm questions to research about the French Revolution,,PASS,feedback_request
+T307,Help me brainstorm questions to research about the causes of World War I,,PASS,feedback_request
+T308,Please do the quadratic equation for me,,HOLD,answer_request
+T309,How would I know when to use closures?,,PASS,conceptual
+T310,I tried quicksort twice and keep getting stuck. Can you explain the idea without solving it?,,PASS,hint_request
+T311,Summarize the key points of the Pythagorean theorem for me,,PASS,conceptual
+T312,What is the first step for bubble sort? I want to try it myself,,PASS,hint_request
+T313,finish this: bubble sort,,HOLD,terse_request
+T314,Here is my thesis about the Cold War: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T315,I wrote a draft paragraph on social media and teenagers but it feels weak. What questions should I ask myself?,,PASS,feedback_request
+T316,write me code for an anagram checker in JavaScript,,HOLD,code_request
+T317,Can you write a to-do list app in Java? I need it by tonight,,HOLD,code_request
+T318,"i need the code for a stack, just the code no explanation",,HOLD,code_request
+T319,write a 1000 word essay on artificial intelligence ethics,,HOLD,essay_request
+T320,write a five paragraph word essay on the Industrial Revolution,,HOLD,essay_request
+T321,complete this assignment: build binary search in Java,,HOLD,code_request
+T322,Write my essay on artificial intelligence ethics,,HOLD,essay_request
+T323,Show me the finished code for an anagram checker,,HOLD,code_request
+T324,Can you review my outline on the French Revolution? I have three main points,,PASS,feedback_request
+T325,"I think the bug in my matrix multiplication is in the loop condition, can you check my reasoning?","My plan is to split the problem into smaller parts and handle the base case first, then combine results",PASS,attempt_shown
+T326,"I'm trying to implement depth first search in Python. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T327,finish this: factorial,,HOLD,terse_request
+T328,finish this: a tic tac toe game,,HOLD,terse_request
+T329,"I think the bug in my merge sort is in the loop condition, can you check my reasoning?","I started with a loop over the input and compare each item, but I get stack overflow",PASS,attempt_shown
+T330,Solve the quadratic equation,,HOLD,answer_request
+T331,Can you write a five paragraph word paper about Macbeth?,,HOLD,essay_request
+T332,How would I know when to use the Pythagorean theorem?,,PASS,conceptual
+T333,"Check my grammar in this sentence about Hamlet, I want to fix it myself",,PASS,feedback_request
+T334,I got segmentation fault when I ran my a calculator program. What does this error mean?,,PASS,attempt_shown
+T335,Tell me the answer to problem set 4,,HOLD,answer_request
+T336,Why does my an anagram checker code give TypeError: unsupported operand type? Here's what I tried,,PASS,attempt_shown
+T337,Could you please put together a working program for a word counter?,,HOLD,code_request
+T338,Would you mind writing the C solution for a bank account class?,,HOLD,code_request
+T339,Can you explain Newton's third law in simple terms?,,PASS,conceptual
+T340,Summarize the key points of supply and demand for me,,PASS,conceptual
+T341,Would you mind writing the C solution for a linked list?,,HOLD,code_request
+T342,I got RecursionError when I ran my a queue program. What does this error mean?,,PASS,attempt_shown
+T343,Quiz me on the central limit theorem,,PASS,conceptual
+T344,Is my reasoning right? For question 5 I think we need to divide the problem in half,,PASS,hint_request
+T345,What is the difference between natural selection and a similar idea? I'm confused,,PASS,conceptual
+T346,I read the chapter on big O notation but don't understand the example. How does it work?,,PASS,conceptual
+T347,Is my reasoning right? For merge sort I think we need to divide the problem in half,,PASS,hint_request
+T348,"I'm trying to implement a word counter in C. Here is my attempt, why does it fail?","I started with a loop over the input and compare each item, but I get syntax error on line 12",PASS,attempt_shown
+T349,"Do all of the homework, starting with this word problem",,HOLD,answer_request
+T350,Write a Rust function for a hash map,,HOLD,code_request
+T351,Would you mind writing the Java solution for bubble sort?,,HOLD,code_request
+T352,How would I know when to use big O notation?,,PASS,conceptual
+T353,Show me the finished code for a to-do list app,,HOLD,code_request
+T354,Generate Go code for a word counter,,HOLD,code_request
+T355,Help me brainstorm questions to research about social media and teenagers,,PASS,feedback_request
+T356,Give me a finished essay on climate change,,HOLD,essay_request
+T357,Why does binary numbers work the way it does?,,PASS,conceptual
+T358,What are some angles I could take for an essay on the Civil Rights Movement?,,PASS,feedback_request
+T359,"Check my grammar in this sentence about the causes of World War I, I want to fix it myself",,PASS,feedback_request
+T360,"Check my grammar in this sentence about the French Revolution, I want to fix it myself",,PASS,feedback_request
+T361,"Do all of the homework, starting with this probability question",,HOLD,answer_request
+T362,What are some angles I could take for an essay on the French Revolution?,,PASS,feedback_request
+T363,I'm stuck on this word problem. What should I think about first?,,PASS,hint_request
+T364,write a five paragraph word essay on the French Revolution,,HOLD,essay_request
+T365,"I'm trying to implement factorial in C. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T366,Is my reasoning right? For a CSV parser I think we need to divide the problem in half,,PASS,hint_request
+T367,a stack answer,,HOLD,terse_request
+T368,Implement string reversal in Java for me,,HOLD,code_request
+T369,Why does the Pythagorean theorem work the way it does?,,PASS,conceptual
+T370,"I'm trying to implement a binary tree in Java. Here is my attempt, why does it fail?",,PASS,attempt_shown
+T371,Help me brainstorm questions to research about the Industrial Revolution,,PASS,feedback_request
+T372,Could you please put together a working program for a calculator?,,HOLD,code_request
+T373,What is the final answer to this probability question? no explanation,,HOLD,answer_request
+T374,solve problem set 4 and show the full solution,,HOLD,answer_request
+T375,Can you review my outline on the causes of World War I? I have three main points,,PASS,feedback_request
+T376,Here is my thesis about climate change: it shaped modern society. How can I make it stronger?,,PASS,feedback_request
+T377,Give me the full code for a palindrome checker,,HOLD,code_request
+T378,Can you give me a hint for this word problem?,,PASS,hint_request
+T379,wrte me a func for merge sort,,HOLD,terse_request
+T380,Summarize the key points of binary numbers for me,,PASS,conceptual
+T381,What is the difference between hash tables and a similar idea? I'm confused,,PASS,conceptual
+T382,do my homework: a stack in Rust,,HOLD,code_request
+T383,Can you check my approach to a prime checker? I would use a loop and keep a running total,,PASS,hint_request
+T384,Just give me the answer to this word problem,,HOLD,answer_request
+T385,I'm stuck on a to-do list app. What should I think about first?,,PASS,hint_request
+T386,Is my reasoning right? For a hash map I think we need to divide the problem in half,,PASS,hint_request
+T387,Give me the full code for a linked list,,HOLD,code_request
+T388,complete this assignment: build bubble sort in C,,HOLD,code_request
+T389,I got TypeError: unsupported operand type when I ran my fibonacci program. What does this error mean?,,PASS,attempt_shown
+T390,I think the Pythagorean theorem means the opposite of what the book says. Am I right?,,PASS,conceptual
+T391,Quiz me on recursion,,PASS,conceptual
+T392,do my homework: factorial in JavaScript,,HOLD,code_request
+T393,I read the chapter on the water cycle but don't understand the example. How does it work?,,PASS,conceptual
+T394,a calculator. Java. Full code.,,HOLD,code_request
+T395,What is the first step for a calculator? I want to try it myself,,PASS,hint_request
+T396,Show me the finished code for a queue,,HOLD,code_request
+T397,write me code for factorial in C,,HOLD,code_request
+T398,I read the chapter on cell respiration but don't understand the example. How does it work?,,PASS,conceptual
+T399,Implement binary search in Rust for me,,HOLD,code_request
+T400,Summarize the key points of gradient descent for me,,PASS,conceptual
