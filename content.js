@@ -239,6 +239,7 @@
       bypassUntil = Date.now() + 1500; // the click is done; close the window quickly
       if (panel) {
         hideFindings(panel);
+        clearAttempt(panel);
         setSummary(panel, "Sent anyway. Your choice was logged.", "idle");
         setPanelOpen(panel, false);
       }
@@ -285,6 +286,7 @@
     // students to send, so it is never scored (see gate.js).
     if (hintRegistry.has(question)) {
       hideFindings(panel);
+      clearAttempt(panel);
       setSummary(panel, "Hint request sent.", "ok");
       setPanelOpen(panel, false);
       return { hold: false };
@@ -309,6 +311,7 @@
       recordEvent("passed", verdict.analysis);
       recordJournal("passed", verdict);
       hideFindings(panel);
+      clearAttempt(panel);
       setSummary(panel, `Looks good. Effort score ${verdict.analysis.score}/100.`, "ok");
       setPanelOpen(panel, false);
       return { hold: false };
@@ -387,6 +390,17 @@
     if (!summary) return;
     summary.textContent = text;
     panel.dataset.tone = tone;
+  }
+
+  // An attempt belongs to ONE send. After a message goes out, empty the box so
+  // the next question is scored on its own (otherwise yesterday's attempt would
+  // quietly let today's "just write it for me" through).
+  function clearAttempt(panel) {
+    const box = panel.querySelector("#studyguard-attempt");
+    if (box && box.value) {
+      box.value = "";
+      box.dispatchEvent(new Event("input")); // re-locks hint levels 2 and 3
+    }
   }
 
   // Hides the hold card and the word/advice view (after a send, pass, etc.).
