@@ -1,4 +1,4 @@
-id,label,label,label
+id,prompt,attempt,label
 P01,"Here's my outline for the essay: intro, three causes, conclusion. Does the order make sense?",,PASS
 P02,Would you mind showing me the finished code for a bubble sort?,,HOLD
 P03,Output the solution. Nothing else. Problem: reverse a linked list.,,HOLD
