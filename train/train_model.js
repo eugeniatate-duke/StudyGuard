@@ -36,7 +36,7 @@ console.log("Vocabulary size:", model.idf.length);
 console.log("Wrote model/model.json");
 
 // Show what it learned: the strongest words either way.
-const names = Object.keys(model.vocab);
+const names = Model.termNames(model);
 const ranked = names.map((t, i) => ({ t, w: model.weights[i] })).sort((a, b) => b.w - a.w);
 console.log("\nTop words pushing toward HOLD:");
 ranked.slice(0, 12).forEach((r) => console.log("  +" + r.w.toFixed(2), r.t));

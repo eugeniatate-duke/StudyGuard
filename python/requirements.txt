@@ -2,7 +2,9 @@
 # The Chrome extension itself needs none of these; they are for the research pipeline.
 # Tested with Python 3.10+.
 numpy
+scipy
 scikit-learn
 shap
 lime
 matplotlib
+jupyter

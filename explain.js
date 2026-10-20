@@ -93,7 +93,7 @@
    */
   function shapWords(model, prompt, attempt, background) {
     const mean = background || new Array(model.idf.length).fill(0);
-    const names = Object.keys(model.vocab);
+    const names = Model.termNames(model);
     const vec = new Map(vectorOf(model, prompt, attempt));
     const features = [];
     // Features present in the prompt, plus background-mean features absent from it.

@@ -120,11 +120,22 @@
     return { type: "tfidf-logreg", version: 1, options: opts, vocab, idf, weights, bias, trainRows: rows.length };
   }
 
+  /**
+   * Feature names in index order. NOTE: Object.keys(vocab) is NOT in index order
+   * when terms look like numbers ("4"), because JavaScript lists integer-like
+   * keys first. Always build the list from the stored indices.
+   */
+  function termNames(model) {
+    const names = new Array(model.idf.length);
+    for (const [term, i] of Object.entries(model.vocab)) names[i] = term;
+    return names;
+  }
+
   /** p(HOLD) plus each present feature's contribution (weight x tf-idf value). */
   function predict(model, prompt, attempt) {
     const tokens = featureTokens(prompt, attempt);
     const vec = vectorize(tokens, model.vocab, model.idf);
-    const names = Object.keys(model.vocab);
+    const names = termNames(model);
     let logit = model.bias;
     const contributions = [];
     for (const [i, v] of vec) {
@@ -177,5 +188,5 @@
     };
   }
 
-  return { tokenize, featureTokens, train, predict, crossValidate, createAnalyzer, DEFAULTS };
+  return { tokenize, featureTokens, train, predict, crossValidate, createAnalyzer, termNames, DEFAULTS };
 });
