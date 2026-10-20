@@ -18,10 +18,24 @@
  * so the explanation is exact. A trained model (SHAP/LIME) replaces the rules
  * later behind this same analyzePrompt() interface.
  *
+ * RULE SETS (Step 10d)
+ * - "v1": the original rules, kept exactly so results can be compared.
+ * - "v2" (default): v1 plus
+ *     * extra REQUEST rules for polite and indirect wording ("could you put
+ *       together a complete solution", "full code", "code only", a few common
+ *       typos and a little Spanish). They only apply when no v1 request rule
+ *       fired, so every prompt v1 already caught scores exactly as before.
+ *     * an attempt box that must show some variety of words (filler such as
+ *       "asdf asdf asdf" earns no credit) and earns extra credit when it is
+ *       substantial (12+ words, 8+ different words).
+ *     * "for me" is ignored when the prompt asks for a study aid (summarise,
+ *       explain, quiz, check, review...).
+ *   Choose per call with analyzePrompt(prompt, { ruleSet: "v1" | "v2" }).
+ *
  * KNOWN LIMITS (also documented in docs/project-plan.md)
  * - Pattern matching cannot judge whether an attempt is correct or sincere.
  * - Padding a prompt with filler phrases can raise the score (red-team test E5).
- * - English only.
+ * - Mostly English; indirection ("print it") and role-play are not caught.
  *
  * This file has no DOM code, so it runs in Chrome AND in Node for testing.
  */
@@ -35,6 +49,11 @@ const ENGINE_CONFIG = {
   lengthBonusCap: 10, // at most this many bonus points for length
   attemptFieldMinWords: 5, // words needed in the "attempt" box to count
   attemptFieldWeight: 25, // points for a real attempt in the attempt box
+  ruleSet: "v2", // default rule set: "v1" or "v2"
+  attemptFieldMinDistinct: 4, // v2: different words needed for the attempt to count
+  attemptDepthMinWords: 12, // v2: a substantial attempt has at least this many words...
+  attemptDepthMinDistinct: 8, // ...and at least this many different words
+  attemptDepthWeight: 15, // v2: extra points for a substantial attempt
 };
 
 /**
@@ -132,6 +151,87 @@ const SIGNALS = [
   },
 ];
 
+
+// ---- v2 request rules (only used when no v1 request rule fired) -------------
+// Built from small named pieces so each part can be read and tested on its own.
+
+// Words that introduce a request: sentence start, "please", "could you",
+// "would you mind", "if you could", "help me by", ...
+const LEAD =
+  "(?:^|[.!?:;\\n]\\s*" +
+  "|\\b(?:please|plz|pls|just|kindly|then|and|also)\\s+" +
+  "|\\b(?:can|could|would|will)\\s+you\\s+(?:please\\s+|possibly\\s+|just\\s+|maybe\\s+|kindly\\s+)?" +
+  "|\\bwould\\s+you\\s+(?:mind\\s+|be\\s+able\\s+to\\s+)" +
+  "|\\bif\\s+you\\s+(?:could|can|would)\\s+(?:just\\s+)?" +
+  "|\\b(?:need|want)\\s+you\\s+to\\s+" +
+  "|\\bhelp\\s+me\\s+by\\s+" +
+  "|\\b(?:possible|chance)\\s+(?:for\\s+you\\s+to|you\\s+could)\\s+" +
+  "|\\bi'?d\\s+like\\s+you\\s+to\\s+)";
+
+// "do it for me" verbs, including -ing forms and a few common typos.
+const VERB =
+  "(?:giv(?:e|ing)|provid(?:e|ing)|suppl(?:y|ying)|produc(?:e|ing)|show(?:ing)?|send(?:ing)?|draft(?:ing)?" +
+  "|writ(?:e|ing)|wrte|wirte|compos(?:e|ing)|generat(?:e|ing)|creat(?:e|ing)|mak(?:e|ing)|build(?:ing)?" +
+  "|implement(?:ing)?|cod(?:e|ing)|prepar(?:e|ing)|put(?:ting)?\\s+together|typ(?:e|ing)|print(?:ing)?" +
+  "|output|finish(?:ing)?|complet(?:e|ing)|do(?:ing)?)\\b(?:\\s+(?:out|up|together|down))?";
+
+const OBJ_PREFIX = "(?:(?:me|us)\\s+)?(?:(?:the|a|an|my|our|this|your)\\s+)?";
+const SIZE = "(?:\\d+[-\\s]*(?:words?|pages?|paragraphs?)\\s+)?";
+const ADJ =
+  "(?:(?:full|whole|entire|complete|completed|finished|final|working|correct|actual|polished|ready[-\\s]to[-\\s]submit|full[-\\s]length)\\s+){0,2}";
+const VERSION = "(?:version\\s+of\\s+(?:the\\s+|my\\s+|our\\s+)?)?";
+// up to two topic words ("binary search", "history"), but not "my OWN solution"
+const TOPIC = "(?:(?!own\\b|first\\b|rough\\b|initial\\b)[a-z'-]+\\s+){0,2}";
+const DELIVERABLE =
+  "(?:source\\s+code|code|solutions?|answers?|implementations?|programs?|prgrams?|progams?|scripts?|func" +
+  "|essays?|papers?|reports?|write-?ups?|assignments?|homework|worksheets?|problem\\s+sets?|lab\\s+reports?" +
+  "|reflections?(?:\\s+papers?)?|discussion\\s+posts?|posts?)\\b";
+
+// 1) "could you please put together a complete solution for ..."
+const ASK_FOR_DELIVERABLE =
+  LEAD + VERB + "\\s+" + OBJ_PREFIX + SIZE + ADJ + VERSION + TOPIC + DELIVERABLE;
+// 2) "full code", "the complete solution", "finished script"
+const FINISHED_VERSION =
+  "\\b(?:full|whole|entire|complete|completed|finished|final|ready[-\\s]to[-\\s]submit)\\s+(?:working\\s+)?" +
+  "(?:source\\s+code|code|solutions?|implementations?|programs?|scripts?|essays?|papers?|write-?ups?|version|answers?)\\b";
+// 3) a little Spanish ("dame el código completo")
+const SPANISH =
+  "\\b(?:dame|escr[ií]beme|escribe|hazme|genera|resuelve)\\b[^.?!\\n]{0,40}\\b(?:c[oó]digo|soluci[oó]n|respuesta|programa|funci[oó]n|ensayo|tarea)\\b";
+// 4) "code only", "just the answer", ", no explanation"
+const ANSWER_ONLY =
+  "\\b(?:only|just)\\s+(?:with\\s+|the\\s+)?(?:code|answer|solution)\\b" +
+  "|\\b(?:code|answer|solution|implementation)\\s+only\\b" +
+  "|(?:^|[,.;:]\\s*)no\\s+explanations?\\b";
+
+const V2_SIGNALS = [
+  {
+    id: "deliverable_request",
+    kind: "request",
+    weight: 35,
+    label: "Asks for a finished solution, code or essay",
+    pattern: new RegExp([ASK_FOR_DELIVERABLE, FINISHED_VERSION, SPANISH].join("|"), "i"),
+  },
+  {
+    id: "answer_only",
+    kind: "request",
+    weight: 30,
+    label: 'Asks for "just the answer" or code only',
+    pattern: new RegExp(ANSWER_ONLY, "i"),
+  },
+];
+
+// Every signal the engine can report (for labels in the dashboard).
+const ALL_SIGNALS = [...SIGNALS, ...V2_SIGNALS];
+
+// v2: asking for a study aid ("summarize", "quiz me") is not handing over graded work.
+const STUDY_AID = /\b(summari[sz]\w*|explain\w*|quiz\w*|check\w*|review\w*|rephras\w*|proofread\w*|outline\w*|simplif\w*|clarif\w*|flashcards?)\b/i;
+
+/** Word count and number of different words, for judging an attempt. */
+function attemptStats(text) {
+  const words = text.toLowerCase().match(/[a-z0-9']+/g) || [];
+  return { count: words.length, distinct: new Set(words).size };
+}
+
 /** Keep a number inside [min, max]. */
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -164,7 +264,8 @@ function findMatches(pattern, text) {
  * Main entry point.
  *
  * @param {string} prompt - what the student typed in the chat box
- * @param {{attempt?: string}} [options] - optional text from the attempt box
+ * @param {{attempt?: string, ruleSet?: "v1"|"v2"}} [options] - optional text from
+ *   the attempt box, and which rule set to use (default ENGINE_CONFIG.ruleSet)
  * @returns {{
  *   score: number,
  *   decision: "pass" | "needs_effort" | "empty",
@@ -178,12 +279,13 @@ function findMatches(pattern, text) {
  */
 function analyzePrompt(prompt, options = {}) {
   const attempt = (options.attempt || "").trim();
+  const v2 = (options.ruleSet || ENGINE_CONFIG.ruleSet) !== "v1";
   // ChatGPT and Mac keyboards often produce curly quotes; make them plain so
   // patterns like "I'm stuck" match. Replacements are 1:1, so positions stay valid.
   const text = String(prompt || "")
-    .replace(/[\u2018\u2019]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"');
-  const attemptText = attempt.replace(/[\u2018\u2019]/g, "'");
+    .replace(/[‘’]/g, "'")
+    .replace(/[“”]/g, '"');
+  const attemptText = attempt.replace(/[‘’]/g, "'");
 
   const result = {
     score: ENGINE_CONFIG.baseScore,
@@ -202,9 +304,7 @@ function analyzePrompt(prompt, options = {}) {
   const combined = attemptText ? `${text}\n${attemptText}` : text;
   result.wordCount = countWords(combined);
 
-  for (const signal of SIGNALS) {
-    const matches = findMatches(signal.pattern, combined);
-    if (matches.length === 0) continue;
+  function addSignal(signal, matches) {
     result.signals.push({
       id: signal.id,
       kind: signal.kind,
@@ -216,8 +316,30 @@ function analyzePrompt(prompt, options = {}) {
     else result.effortPoints += signal.weight;
   }
 
+  for (const signal of SIGNALS) {
+    // v2: "for me" is ignored when the student asks for a study aid.
+    if (v2 && signal.id === "for_me" && STUDY_AID.test(combined)) continue;
+    const matches = findMatches(signal.pattern, combined);
+    if (matches.length === 0) continue;
+    addSignal(signal, matches);
+  }
+
+  // v2 request rules: only when none of the v1 request rules fired, so prompts
+  // v1 already caught keep exactly their v1 score.
+  if (v2 && result.requestPoints === 0) {
+    for (const signal of V2_SIGNALS) {
+      const matches = findMatches(signal.pattern, combined);
+      if (matches.length > 0) addSignal(signal, matches);
+    }
+  }
+
   // A real attempt typed in the attempt box counts as effort by itself.
-  if (countWords(attemptText) >= ENGINE_CONFIG.attemptFieldMinWords) {
+  // v2 also requires some variety of words, so filler earns nothing.
+  const stats = attemptStats(attemptText);
+  const attemptCounts =
+    countWords(attemptText) >= ENGINE_CONFIG.attemptFieldMinWords &&
+    (!v2 || stats.distinct >= ENGINE_CONFIG.attemptFieldMinDistinct);
+  if (attemptCounts) {
     result.signals.push({
       id: "attempt_field",
       kind: "effort",
@@ -226,6 +348,22 @@ function analyzePrompt(prompt, options = {}) {
       matches: [],
     });
     result.effortPoints += ENGINE_CONFIG.attemptFieldWeight;
+
+    // v2: a substantial attempt earns extra credit.
+    if (
+      v2 &&
+      stats.count >= ENGINE_CONFIG.attemptDepthMinWords &&
+      stats.distinct >= ENGINE_CONFIG.attemptDepthMinDistinct
+    ) {
+      result.signals.push({
+        id: "attempt_depth",
+        kind: "effort",
+        label: "Wrote a substantial attempt",
+        weight: ENGINE_CONFIG.attemptDepthWeight,
+        matches: [],
+      });
+      result.effortPoints += ENGINE_CONFIG.attemptDepthWeight;
+    }
   }
 
   // Small bonus for longer prompts (more of the student's own thinking).
@@ -258,15 +396,14 @@ function analyzePrompt(prompt, options = {}) {
   result.decision =
     result.score >= ENGINE_CONFIG.passThreshold ? "pass" : "needs_effort";
 
-  if (result.requestPoints > result.effortPoints)
-    result.intent = "answer_seeking";
+  if (result.requestPoints > result.effortPoints) result.intent = "answer_seeking";
   else if (result.effortPoints > 0) result.intent = "attempting";
 
   return result;
 }
 
 // Export for Node tests AND for Chrome (content scripts share one global scope).
-const StudyGuardEngine = { analyzePrompt, ENGINE_CONFIG, SIGNALS };
+const StudyGuardEngine = { analyzePrompt, ENGINE_CONFIG, SIGNALS, V2_SIGNALS, ALL_SIGNALS };
 if (typeof module !== "undefined" && module.exports) {
   module.exports = StudyGuardEngine;
 } else {
