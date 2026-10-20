@@ -1,0 +1,162 @@
+[
+ {
+  "prompt": "Quiz me on closures",
+  "attempt": "",
+  "pHold": 0.07747700397918525
+ },
+ {
+  "prompt": "Answer this probability question for me",
+  "attempt": "",
+  "pHold": 0.9696388179687974
+ },
+ {
+  "prompt": "Implement a CSV parser in Go for me",
+  "attempt": "",
+  "pHold": 0.9176603411162476
+ },
+ {
+  "prompt": "i need the code for binary search, just the code no explanation",
+  "attempt": "",
+  "pHold": 0.9514364836360732
+ },
+ {
+  "prompt": "Could you please just solve exercise 2.4 step by step so I can copy it",
+  "attempt": "",
+  "pHold": 0.9541142873087194
+ },
+ {
+  "prompt": "What sources should I look for on photosynthesis?",
+  "attempt": "",
+  "pHold": 0.02380117697569986
+ },
+ {
+  "prompt": "answer only: the quadratic equation",
+  "attempt": "",
+  "pHold": 0.9668693487828748
+ },
+ {
+  "prompt": "I got RecursionError when I ran my merge sort program. What does this error mean?",
+  "attempt": "First I read the input, then I check each element against the target, and I return the index if it matches",
+  "pHold": 0.03196836117293571
+ },
+ {
+  "prompt": "a queue answer",
+  "attempt": "",
+  "pHold": 0.9332396234425739
+ },
+ {
+  "prompt": "I think the bug in my a temperature converter is in the loop condition, can you check my reasoning?",
+  "attempt": "I tried a for loop and a counter variable, however the output is always the same value",
+  "pHold": 0.02256645581536332
+ },
+ {
+  "prompt": "Give me a hint, not the solution, for a calculator",
+  "attempt": "",
+  "pHold": 0.09536333477516527
+ },
+ {
+  "prompt": "Implement an anagram checker in C++ for me",
+  "attempt": "",
+  "pHold": 0.9307814917869391
+ },
+ {
+  "prompt": "Please do exercise 2.4 for me",
+  "attempt": "",
+  "pHold": 0.9690739667423861
+ },
+ {
+  "prompt": "What are common mistakes people make with pointers?",
+  "attempt": "",
+  "pHold": 0.056535501515207226
+ },
+ {
+  "prompt": "I got NameError when I ran my matrix multiplication program. What does this error mean?",
+  "attempt": "",
+  "pHold": 0.05218391029376986
+ },
+ {
+  "prompt": "What are common mistakes people make with binary numbers?",
+  "attempt": "",
+  "pHold": 0.05037516856230412
+ },
+ {
+  "prompt": "I'm trying to implement a to-do list app in Go. Here is my attempt, why does it fail?",
+  "attempt": "First I read the input, then I check each element against the target, and I return the index if it matches",
+  "pHold": 0.03477736188147545
+ },
+ {
+  "prompt": "Can you review my outline on the Great Depression? I have three main points",
+  "attempt": "",
+  "pHold": 0.08126916971051316
+ },
+ {
+  "prompt": "a to-do list app answer",
+  "attempt": "",
+  "pHold": 0.9265392572049792
+ },
+ {
+  "prompt": "I wrote a draft paragraph on the Great Depression but it feels weak. What questions should I ask myself?",
+  "attempt": "",
+  "pHold": 0.042377663048031415
+ },
+ {
+  "prompt": "Here is my thesis about the causes of World War I: it shaped modern society. How can I make it stronger?",
+  "attempt": "",
+  "pHold": 0.05008257174396418
+ },
+ {
+  "prompt": "Create a program that does a word counter and send me the whole thing",
+  "attempt": "",
+  "pHold": 0.9655853065292238
+ },
+ {
+  "prompt": "Please draft the full essay about renewable energy for me",
+  "attempt": "",
+  "pHold": 0.9637710296792549
+ },
+ {
+  "prompt": "Write my essay on Hamlet",
+  "attempt": "",
+  "pHold": 0.961132002388546
+ },
+ {
+  "prompt": "What are common mistakes people make with recursion?",
+  "attempt": "",
+  "pHold": 0.05093272648653759
+ },
+ {
+  "prompt": "Could you please write the full code for a binary search in Python?",
+  "attempt": "",
+  "pHold": 0.9851720284608586
+ },
+ {
+  "prompt": "Dame el código completo para ordenar una lista",
+  "attempt": "",
+  "pHold": 0.9394676286584107
+ },
+ {
+  "prompt": "Don’t give me the answer, just a hint for problem 3",
+  "attempt": "",
+  "pHold": 0.34884397775902765
+ },
+ {
+  "prompt": "Why does my loop fail?",
+  "attempt": "I tried a for loop over the list and compare each item with the target",
+  "pHold": 0.04426521059032198
+ },
+ {
+  "prompt": "Write a Python function for a binary search",
+  "attempt": "asdf asdf asdf asdf asdf",
+  "pHold": 0.9417528226485389
+ },
+ {
+  "prompt": "",
+  "attempt": "",
+  "pHold": 0.6528464353883542
+ },
+ {
+  "prompt": "hello",
+  "attempt": "",
+  "pHold": 0.6528464353883542
+ }
+]

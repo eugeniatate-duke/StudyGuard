@@ -1,0 +1,8 @@
+# Python tools for StudyGuard (training, evaluation, SHAP/LIME comparison).
+# The Chrome extension itself needs none of these; they are for the research pipeline.
+# Tested with Python 3.10+.
+numpy
+scikit-learn
+shap
+lime
+matplotlib
