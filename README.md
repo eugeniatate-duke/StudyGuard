@@ -8,7 +8,13 @@ Built for AIPI 590 (Explainable AI), Duke University, by Eugenia Tate.
 
 ![StudyGuard holding a prompt and explaining why](docs/images/hero-soft-block.png)
 
-![Short demo: a prompt is held, the student adds their own attempt, and it passes](docs/images/demo.gif)
+**Path 1: add your own thinking.** The prompt is held, the student adds an attempt, and it passes.
+
+![Demo: a prompt is held, the student adds their own attempt, and it passes](docs/images/demo-attempt.gif)
+
+**Path 2: ask for a hint instead.** The hint request goes straight into the chat box, and StudyGuard lets it through.
+
+![Demo: a prompt is held, the student asks for a hint, and the hint request goes straight into the chat box](docs/images/demo-hint.gif)
 
 ---
 
@@ -43,15 +49,21 @@ The focus is **explainability and responsible design**, not detection or policin
 
 | Feature | What the student sees |
 |---|---|
-| **Soft block** | When Send is pressed on a prompt that scores below the pass mark, a card appears instead of sending. |
+| **Slim bar and soft block** | StudyGuard sits above the message box as one slim bar. When Send is pressed on a prompt that scores below the pass mark, the bar opens and a card appears instead of sending, with three choices: add your own thinking, get a hint, or send anyway. It folds back down after you send. |
 | **Prompt Breakdown Map** (side panel) | Intent (e.g. "Direct code generation") and Student Effort (e.g. "Absent") with a plain-language explanation. |
 | **Word importance** | The exact words that pushed the score toward "answer-seeking" or "effort", found by removing each word and re-scoring. |
 | **Counterfactual hint** | The smallest change that would unlock the prompt, e.g. "Paste the exact error message, or say which line fails and what happened" or "Write at least 5 words of your own approach in the attempt box". Each suggestion is checked by re-scoring. |
-| **Attempt box and hint levels** | A place to type your own attempt or sticking point, which raises the score. Choose how much help to ask for: Level 1 is a conceptual nudge; Levels 2 and 3 unlock once you have written an attempt. |
+| **Attempt box and hint builder** | A place to type your own attempt or sticking point, which raises the score. "Stuck? Ask for a hint" writes a request that asks the AI for one hint at a time and puts it straight into the chat box. Level 1 is a conceptual nudge; Levels 2 and 3 unlock once you have written an attempt. StudyGuard never holds its own hint requests. |
 | **Learning Journal** (opt-in) | A record of prompts, attempts and outcomes you can export as Markdown or PDF to hand in with homework. |
 | **Analytics dashboard** | Hold rate, recoveries (held, then improved), score distribution and most common triggers; export to CSV or PDF. Built only from a log that never stores prompt text. |
 
-![StudyGuard analytics dashboard: outcomes by day and effort-score distribution](docs/images/analytics-dash.png)
+![StudyGuard analytics dashboard: headline rates and outcomes by day](docs/images/sg-analytics.png)
+
+![Effort-score distribution and the rules that fire most](docs/images/effort-scores.png)
+
+| The slim bar (collapsed) | The toolbar popup |
+|---|---|
+| ![StudyGuard as a slim bar above the message box](docs/images/collapsed-bar.png) | ![StudyGuard popup with study mode, journal and tools](docs/images/popup.png) |
 
 Supported sites: **chatgpt.com** and **claude.ai** (Chrome 116 or newer, because of the side panel).
 
@@ -104,7 +116,7 @@ Type each prompt into ChatGPT or Claude and press Send.
 
 Open the side panel (popup, "Open Prompt Breakdown Map") to see the breakdown after a hold.
 
-![Prompt Breakdown Map in the side panel](docs/images/side-panel-breakdown.png)
+![Prompt Breakdown Map in the side panel](docs/images/side-panel.png)
 
 ## Results
 
