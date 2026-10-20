@@ -206,13 +206,19 @@
       document.getElementById("studyguard-attempt")?.focus();
     });
 
+    const hintButton = document.createElement("button");
+    hintButton.type = "button";
+    hintButton.className = "studyguard-send-anyway";
+    hintButton.textContent = "Get a hint instead";
+    hintButton.addEventListener("click", openHintBuilder);
+
     const sendButton = document.createElement("button");
     sendButton.type = "button";
     sendButton.className = "studyguard-send-anyway";
     sendButton.textContent = "Send anyway";
     sendButton.addEventListener("click", () => sendAnyway(verdict));
 
-    actions.append(addButton, sendButton);
+    actions.append(addButton, hintButton, sendButton);
     box.append(title, reason, actions);
     container.prepend(box);
   }
@@ -317,6 +323,7 @@
     alertBox.replaceChildren();
     renderSoftBlock(alertBox, verdict);
     alertBox.hidden = false;
+    panel.querySelector("#studyguard-body").scrollTop = 0;
     setSummary(
       panel,
       `Held. Score ${verdict.analysis.score}/100 (needs ${verdict.analysis.threshold}).`,
@@ -388,6 +395,39 @@
     const breakdown = panel.querySelector("#studyguard-breakdown");
     if (alertBox) alertBox.hidden = true;
     if (breakdown) breakdown.hidden = true;
+  }
+
+  // Shows the hint builder and brings it into view.
+  function openHintBuilder() {
+    const panel = document.getElementById(panelId);
+    if (!panel) return;
+    setPanelOpen(panel, true);
+    const section = panel.querySelector("#studyguard-hint-section");
+    section.hidden = false;
+    panel.querySelector("#studyguard-hint-open").setAttribute("aria-expanded", "true");
+    section.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    panel.querySelector("#studyguard-level")?.focus({ preventScroll: true });
+  }
+
+  // Puts text into the site's message box (no paste step). Returns true only
+  // if the text really appears there; otherwise the caller falls back to copy.
+  function insertIntoChat(text) {
+    const input = findVisibleChatInput();
+    if (!input) return false;
+    input.focus();
+    const selection = window.getSelection();
+    const range = document.createRange();
+    range.selectNodeContents(input);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    let ok = false;
+    try {
+      ok = document.execCommand("insertText", false, text);
+    } catch (error) {
+      ok = false;
+    }
+    const squash = (t) => String(t).replace(/\s+/g, " ").trim();
+    return ok && squash(input.innerText).includes(squash(text).slice(0, 40));
   }
 
   const IDLE_SUMMARY = "Ready. Open to add your own thinking (optional).";
@@ -464,20 +504,41 @@
     breakdown.hidden = true;
 
     // ---- Optional extra: build a hint request ----
-    const hintSection = document.createElement("details");
-    hintSection.id = "studyguard-hint-section";
+    const hintOpen = document.createElement("button");
+    hintOpen.type = "button";
+    hintOpen.id = "studyguard-hint-open";
+    hintOpen.className = "sg-hint-open";
+    hintOpen.setAttribute("aria-controls", "studyguard-hint-section");
+    hintOpen.setAttribute("aria-expanded", "false");
+    hintOpen.textContent = "Stuck? Ask for a hint instead of the answer";
+    hintOpen.addEventListener("click", () => {
+      const sec = panel.querySelector("#studyguard-hint-section");
+      if (sec.hidden) {
+        openHintBuilder();
+      } else {
+        sec.hidden = true;
+        hintOpen.setAttribute("aria-expanded", "false");
+      }
+    });
 
-    const hintSummary = document.createElement("summary");
-    hintSummary.textContent = "Want a hint instead of an answer?";
+    const hintSection = document.createElement("div");
+    hintSection.id = "studyguard-hint-section";
+    hintSection.hidden = true;
+
+    const hintSummary = document.createElement("p");
+    hintSummary.className = "sg-card-title";
+    hintSummary.textContent = "Ask for a hint, not the answer";
 
     const hintHelp = document.createElement("p");
     hintHelp.className = "sg-help";
     hintHelp.textContent =
-      "StudyGuard can write a request that asks the AI for one hint at a time. Pick a level, prepare it, then copy it into the chat box.";
+      "StudyGuard writes a request that asks " +
+      site.name +
+      " for one hint at a time. Choose how much help, create it, then put it in the chat box.";
 
     const levelLabel = document.createElement("label");
     levelLabel.htmlFor = "studyguard-level";
-    levelLabel.textContent = "Hint level";
+    levelLabel.textContent = "How much help?";
 
     const levelSelect = document.createElement("select");
     levelSelect.id = "studyguard-level";
@@ -521,7 +582,7 @@
     const prepareButton = document.createElement("button");
     prepareButton.type = "button";
     prepareButton.className = "sg-primary";
-    prepareButton.textContent = "Prepare a hint request";
+    prepareButton.textContent = "Create hint request";
 
     const status = document.createElement("p");
     status.id = "studyguard-hint-status";
@@ -539,7 +600,7 @@
 
     const previewLabel = document.createElement("label");
     previewLabel.htmlFor = "studyguard-preview";
-    previewLabel.textContent = "Request to copy into " + site.name + " (editable)";
+    previewLabel.textContent = "Your hint request (you can edit it)";
 
     const preview = document.createElement("textarea");
     preview.id = "studyguard-preview";
@@ -549,10 +610,40 @@
     // StudyGuard's own hint requests are let through when pasted (gate.js).
     preview.addEventListener("input", () => hintRegistry.register(preview.value));
 
+    const insertButton = document.createElement("button");
+    insertButton.type = "button";
+    insertButton.className = "sg-primary";
+    insertButton.textContent = "Put it in the chat box";
+
+    insertButton.addEventListener("click", async () => {
+      const request = preview.value.trim();
+      if (!request) {
+        status.textContent = "The preview is empty. Create a hint request first.";
+        return;
+      }
+      hintRegistry.register(request);
+      if (insertIntoChat(request)) {
+        status.textContent =
+          "Placed in " + site.name + "’s box. Review it, then press Send. StudyGuard will let it through.";
+        return;
+      }
+      // Some pages block scripted typing. Copy instead.
+      try {
+        await navigator.clipboard.writeText(request);
+        status.textContent =
+          "Could not type it for you, so it was copied. Paste it into " + site.name + "’s box and press Send.";
+      } catch (error) {
+        preview.focus();
+        preview.select();
+        status.textContent =
+          "Select the text above and copy it (Cmd+C or Ctrl+C), then paste it into the chat box.";
+      }
+    });
+
     const copyButton = document.createElement("button");
     copyButton.type = "button";
-    copyButton.className = "sg-primary";
-    copyButton.textContent = "Copy hint request";
+    copyButton.className = "sg-secondary";
+    copyButton.textContent = "Copy";
 
     copyButton.addEventListener("click", async () => {
       // Read the current preview, including any edits the student made.
@@ -578,7 +669,10 @@
       }
     });
 
-    previewSection.append(previewHelp, previewLabel, preview, copyButton);
+    const previewActions = document.createElement("div");
+    previewActions.className = "sg-actions";
+    previewActions.append(insertButton, copyButton);
+    previewSection.append(previewHelp, previewLabel, preview, previewActions);
 
     prepareButton.addEventListener("click", () => {
       const chatInput = findVisibleChatInput();
@@ -613,9 +707,9 @@
 
       previewSection.hidden = false;
       status.textContent =
-        "Ready. Nothing has been sent. Review it below, copy it, and paste it into " +
+        "Ready. Nothing has been sent. Review it below, then put it in " +
         site.name +
-        ".";
+        "’s box.";
       previewSection.scrollIntoView({ block: "nearest" });
     });
 
@@ -630,7 +724,7 @@
       previewSection
     );
 
-    body.append(alertBox, instructions, label, attempt, note, breakdown, hintSection);
+    body.append(alertBox, instructions, label, attempt, note, hintOpen, hintSection, breakdown);
     panel.append(toggle, body);
 
     setSummary(panel, IDLE_SUMMARY, "idle");
@@ -672,6 +766,8 @@
       panel.querySelector("#studyguard-preview-section").hidden = true;
       panel.querySelector("#studyguard-hint-status").textContent = "";
       hideFindings(panel);
+      panel.querySelector("#studyguard-hint-section").hidden = true;
+      panel.querySelector("#studyguard-hint-open").setAttribute("aria-expanded", "false");
       setSummary(panel, IDLE_SUMMARY, "idle");
       setPanelOpen(panel, false);
       panel.dataset.conversationPath = currentPath;

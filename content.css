@@ -190,11 +190,13 @@
   outline-offset: 2px;
 }
 
+#studyguard-panel button.sg-secondary,
 #studyguard-panel .studyguard-softblock-actions .studyguard-send-anyway {
   color: #1f3d2b;
   background: #ffffff;
 }
 
+#studyguard-panel button.sg-secondary:hover,
 #studyguard-panel .studyguard-softblock-actions .studyguard-send-anyway:hover {
   background: #eef4f0;
 }
@@ -270,37 +272,79 @@
 }
 
 #studyguard-panel .studyguard-hint-box ol {
-  margin: 0 0 8px 18px;
-  padding: 0;
+  margin: 0 0 8px;
+  padding: 0 0 0 22px;
+  list-style: decimal outside !important;
 }
 
 #studyguard-panel .studyguard-hint-box li {
+  display: list-item !important;
   margin-bottom: 4px;
+  list-style: decimal outside !important;
 }
 
-/* ---- Optional hint-request builder ---- */
-#studyguard-panel #studyguard-hint-section {
-  margin-top: 14px;
-  padding-top: 6px;
-  border-top: 1px solid #e0e9e3;
-}
-
-#studyguard-panel summary {
-  padding: 8px 0;
+/* ---- Hint builder: a visible button, then a card ---- */
+#studyguard-panel .sg-hint-open {
+  display: block;
+  width: 100%;
+  margin: 12px 0 0;
+  padding: 9px 12px;
+  font: inherit;
   font-size: 13px;
   font-weight: 600;
-  color: #256b48;
+  text-align: left;
+  color: #1d5a3b;
+  background: #eaf4ee;
+  border: 1px dashed #7fae93;
+  border-radius: 8px;
   cursor: pointer;
 }
 
-#studyguard-panel summary:focus-visible {
-  outline: 2px solid #256b48;
-  outline-offset: 2px;
-  border-radius: 4px;
+#studyguard-panel .sg-hint-open:hover {
+  background: #dcece3;
 }
 
-#studyguard-panel #studyguard-level {
-  margin-bottom: 0;
+#studyguard-panel .sg-hint-open::before {
+  content: "\1F4A1  ";
+}
+
+#studyguard-panel #studyguard-hint-section {
+  margin-top: 10px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #b9d3c4;
+  border-radius: 10px;
+}
+
+#studyguard-panel .sg-card-title {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#studyguard-panel #studyguard-hint-section label {
+  margin-top: 10px;
+}
+
+#studyguard-panel .sg-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#studyguard-panel .sg-actions button {
+  margin-top: 10px;
+}
+
+#studyguard-panel button.sg-secondary {
+  margin-top: 10px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid #256b48;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 #studyguard-panel #studyguard-hint-status {
