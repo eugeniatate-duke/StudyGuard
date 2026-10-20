@@ -1,27 +1,38 @@
-/* Keep our styles limited to StudyGuard's panel. */
+/* StudyGuard panel. Every rule is scoped to #studyguard-panel so nothing
+   leaks into ChatGPT or Claude. Collapsed, it is one slim bar; it opens when a
+   prompt is held. */
 #studyguard-panel {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  margin: 0 0 12px;
-  padding: 12px 16px;
+  margin: 0 0 10px;
+  padding: 0;
+  overflow: hidden;
 
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.45;
   text-align: left;
 
   color: #20332b;
   background: #f7faf8;
   border: 1px solid #ccd9d1;
   border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(32, 51, 43, 0.06);
 }
 
-#studyguard-panel h2 {
-  margin: 0 0 4px;
-  font-size: 16px;
-  font-weight: 700;
-  color: inherit;
+#studyguard-panel[data-tone="warn"] {
+  border-color: #e0b252;
+}
+
+#studyguard-panel *,
+#studyguard-panel *::before,
+#studyguard-panel *::after {
+  box-sizing: border-box;
+}
+
+#studyguard-panel [hidden] {
+  display: none !important;
 }
 
 #studyguard-panel p {
@@ -29,107 +40,99 @@
   color: inherit;
 }
 
-#studyguard-panel label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-#studyguard-panel textarea {
-  display: block;
-  box-sizing: border-box;
+/* ---- The slim bar (always visible) ---- */
+#studyguard-panel .sg-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
-  min-height: 80px;
-  max-height: 180px;
-  padding: 10px;
-  resize: vertical;
-
+  min-height: 40px;
+  margin: 0;
+  padding: 8px 14px;
   font: inherit;
-  color: #20332b;
+  text-align: left;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+#studyguard-panel .sg-bar:hover {
+  background: #eef4f0;
+}
+
+#studyguard-panel .sg-bar:focus-visible {
+  outline: 2px solid #256b48;
+  outline-offset: -2px;
+}
+
+#studyguard-panel .sg-bar svg {
+  flex: none;
+}
+
+#studyguard-panel .sg-name {
+  flex: none;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+#studyguard-panel .sg-summary {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: #526359;
+}
+
+#studyguard-panel[data-tone="ok"] .sg-summary {
+  color: #1d6b43;
+  font-weight: 600;
+}
+
+#studyguard-panel[data-tone="warn"] .sg-summary {
+  color: #8a5a00;
+  font-weight: 600;
+}
+
+#studyguard-panel .sg-toggle-label {
+  flex: none;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #256b48;
   background: #ffffff;
-  border: 1px solid #8b9f93;
-  border-radius: 8px;
+  border: 1px solid #b9cdc0;
+  border-radius: 999px;
 }
 
-#studyguard-panel textarea::placeholder {
-  color: #596b60;
-}
-
-#studyguard-panel textarea:focus-visible {
-  outline: 2px solid #256b48;
-  outline-offset: 2px;
-}
-
-#studyguard-panel #studyguard-attempt-note {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #526359;
-}
-
-#studyguard-panel button {
-  margin-top: 12px;
-  padding: 8px 12px;
-  font: inherit;
-  font-weight: 600;
-  color: #ffffff;
-  background: #256b48;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#studyguard-panel button:hover {
-  background: #1b5136;
-}
-
-#studyguard-panel button:focus-visible {
-  outline: 2px solid #256b48;
-  outline-offset: 3px;
-}
-
-#studyguard-panel #studyguard-hint-status {
-  margin-top: 8px;
-  font-size: 12px;
-}
-
-#studyguard-panel #studyguard-preview-section {
-  margin-top: 12px;
-}
-
-#studyguard-panel [hidden] {
-  display: none !important;
-}
-
-#studyguard-panel summary {
-  padding: 8px 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#studyguard-panel summary:focus-visible {
-  outline: 2px solid #256b48;
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-#studyguard-panel #studyguard-preview-help {
-  margin: 4px 0 12px;
-  font-size: 12px;
-  color: #526359;
+/* ---- Body (scrolls inside the panel so it can never take over the page) ---- */
+#studyguard-panel #studyguard-body {
+  max-height: min(55vh, 460px);
+  padding: 4px 14px 14px;
+  overflow-y: auto;
+  border-top: 1px solid #e0e9e3;
 }
 
 #studyguard-panel #studyguard-instructions {
-  margin: 0 0 12px;
+  margin: 8px 0 12px;
   font-size: 13px;
   color: #526359;
 }
 
+#studyguard-panel label {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#studyguard-panel textarea,
 #studyguard-panel select {
   display: block;
-  box-sizing: border-box;
   width: 100%;
-  margin-top: 12px;
   padding: 8px 10px;
   font: inherit;
   color: #20332b;
@@ -138,34 +141,113 @@
   border-radius: 8px;
 }
 
+#studyguard-panel textarea {
+  min-height: 64px;
+  max-height: 160px;
+  resize: vertical;
+}
+
+#studyguard-panel textarea::placeholder {
+  color: #596b60;
+}
+
+#studyguard-panel textarea:focus-visible,
 #studyguard-panel select:focus-visible {
   outline: 2px solid #256b48;
   outline-offset: 2px;
 }
 
-#studyguard-panel #studyguard-level-note {
-  margin-top: 8px;
+#studyguard-panel #studyguard-attempt-note,
+#studyguard-panel #studyguard-level-note,
+#studyguard-panel .sg-help {
+  margin-top: 6px;
   font-size: 12px;
   color: #526359;
 }
 
-/* Word-importance view (Step 2) */
+/* ---- Buttons ---- */
+#studyguard-panel button.sg-primary,
+#studyguard-panel .studyguard-softblock-actions button {
+  margin-top: 10px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  background: #256b48;
+  border: 1px solid #256b48;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#studyguard-panel button.sg-primary:hover,
+#studyguard-panel .studyguard-softblock-actions button:hover {
+  background: #1b5136;
+}
+
+#studyguard-panel button:focus-visible {
+  outline: 2px solid #256b48;
+  outline-offset: 2px;
+}
+
+#studyguard-panel button.sg-secondary,
+#studyguard-panel .studyguard-softblock-actions .studyguard-send-anyway {
+  color: #1f3d2b;
+  background: #ffffff;
+}
+
+#studyguard-panel button.sg-secondary:hover,
+#studyguard-panel .studyguard-softblock-actions .studyguard-send-anyway:hover {
+  background: #eef4f0;
+}
+
+/* ---- Hold card + explanation ---- */
 #studyguard-panel #studyguard-breakdown {
   margin-top: 12px;
-  padding: 10px;
-  background: #ffffff;
-  border: 1px solid #ccd9d1;
+}
+
+#studyguard-panel #studyguard-alert {
+  margin-top: 10px;
+}
+
+#studyguard-panel .studyguard-softblock {
+  margin-bottom: 4px;
+  padding: 10px 12px;
+  font-size: 13px;
+  background: #fff7e6;
+  border: 1px solid #e0b252;
   border-radius: 8px;
 }
 
-#studyguard-panel .studyguard-breakdown-title {
+#studyguard-panel .studyguard-softblock-title {
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+#studyguard-panel .studyguard-softblock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#studyguard-panel .studyguard-softblock-actions button {
+  margin-top: 8px;
+}
+
+#studyguard-panel .studyguard-breakdown-title,
+#studyguard-panel .studyguard-hint-title {
   margin-bottom: 6px;
   font-weight: 600;
+  font-size: 13px;
 }
 
 #studyguard-panel .studyguard-breakdown-text {
+  padding: 8px 10px;
   line-height: 1.9;
   overflow-wrap: anywhere;
+  background: #ffffff;
+  border: 1px solid #ccd9d1;
+  border-radius: 8px;
 }
 
 #studyguard-panel .studyguard-word-red {
@@ -178,82 +260,102 @@
   border-radius: 3px;
 }
 
-#studyguard-panel .studyguard-breakdown-legend {
-  margin-top: 8px;
+#studyguard-panel .studyguard-breakdown-legend,
+#studyguard-panel .studyguard-hint-note {
+  margin-top: 6px;
   font-size: 12px;
   color: #526359;
 }
 
-/* Counterfactual advice (Step 3) */
 #studyguard-panel .studyguard-hint-box {
   margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid #ccd9d1;
-}
-
-#studyguard-panel .studyguard-hint-title {
-  margin-bottom: 6px;
-  font-weight: 600;
 }
 
 #studyguard-panel .studyguard-hint-box ol {
-  margin: 0 0 8px 18px;
-  padding: 0;
+  margin: 0 0 8px;
+  padding: 0 0 0 22px;
+  list-style: decimal outside !important;
 }
 
 #studyguard-panel .studyguard-hint-box li {
+  display: list-item !important;
   margin-bottom: 4px;
+  list-style: decimal outside !important;
 }
 
-#studyguard-panel .studyguard-hint-note {
-  font-size: 12px;
-  color: #526359;
-}
-
-/* Soft block (Step 4) */
-#studyguard-panel .studyguard-softblock {
-  margin-bottom: 12px;
-  padding: 10px;
-  background: #fff7e6;
-  border: 1px solid #e0b252;
-  border-radius: 8px;
-}
-
-#studyguard-panel .studyguard-softblock-title {
-  margin-bottom: 6px;
+/* ---- Hint builder: a visible button, then a card ---- */
+#studyguard-panel .sg-hint-open {
+  display: block;
+  width: 100%;
+  margin: 12px 0 0;
+  padding: 9px 12px;
+  font: inherit;
+  font-size: 13px;
   font-weight: 600;
+  text-align: left;
+  color: #1d5a3b;
+  background: #eaf4ee;
+  border: 1px dashed #7fae93;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-#studyguard-panel .studyguard-softblock-actions {
+#studyguard-panel .sg-hint-open:hover {
+  background: #dcece3;
+}
+
+#studyguard-panel .sg-hint-open::before {
+  content: "\1F4A1  ";
+}
+
+#studyguard-panel #studyguard-hint-section {
+  margin-top: 10px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #b9d3c4;
+  border-radius: 10px;
+}
+
+#studyguard-panel .sg-card-title {
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#studyguard-panel #studyguard-hint-section label {
+  margin-top: 10px;
+}
+
+#studyguard-panel .sg-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 8px;
 }
 
-/* Send anyway: clearly visible secondary button */
-#studyguard-panel .studyguard-send-anyway {
-  background: #ffffff;
-  color: #1f3d2b;
-  border: 1px solid #1f6b45;
+#studyguard-panel .sg-actions button {
+  margin-top: 10px;
 }
 
-/* Compact layout: keep the panel from taking over the page */
-#studyguard-panel #studyguard-attempt {
-  height: 52px;
-  min-height: 52px;
-}
-
-#studyguard-panel #studyguard-breakdown {
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-/* The hold card stays pinned at the top while the explanation scrolls */
-#studyguard-panel .studyguard-softblock {
-  position: sticky;
-  top: 0;
-  z-index: 1;
+#studyguard-panel button.sg-secondary {
+  margin-top: 10px;
+  padding: 7px 12px;
+  font: inherit;
   font-size: 13px;
-  padding: 8px 10px;
+  font-weight: 600;
+  border: 1px solid #256b48;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#studyguard-panel #studyguard-hint-status {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+#studyguard-panel #studyguard-preview-section {
+  margin-top: 10px;
+}
+
+#studyguard-panel #studyguard-preview {
+  min-height: 110px;
 }

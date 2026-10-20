@@ -1,39 +1,239 @@
-/* Include padding and borders within an element's defined width. */
+/* StudyGuard popup. Palette matches the on-page panel. */
+:root {
+  --ink: #20332b;
+  --muted: #526359;
+  --line: #ccd9d1;
+  --bg: #f4f8f5;
+  --card: #ffffff;
+  --brand: #256b48;
+  --brand-dark: #1b5136;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
-  width: 320px;
+  width: 340px;
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 14px;
-  line-height: 1.5;
-  color: #20332b;
-  background-color: #f7faf8;
+  line-height: 1.4;
+  color: var(--ink);
+  background: var(--bg);
 }
 
 main {
-  padding: 20px;
-}
-
-h1 {
-  margin: 0 0 8px;
-  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
 }
 
 p {
-  margin: 0 0 16px;
+  margin: 0;
 }
 
-/* Arrange the checkbox and its description in one row. */
-label {
+/* ---- Brand header ---- */
+.brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
-  border: 1px solid #ccd9d1;
+  gap: 10px;
+  padding: 2px 2px 4px;
+}
+
+.brand img {
+  flex: none;
   border-radius: 8px;
-  background-color: #ffffff;
+}
+
+.brand div {
+  flex: 1;
+  min-width: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.pill {
+  flex: none;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  background: #e6ede8;
+  border-radius: 999px;
+}
+
+.pill[data-on="true"] {
+  color: #ffffff;
+  background: var(--brand);
+}
+
+/* ---- Cards and rows ---- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.switch-row {
+  cursor: pointer;
+}
+
+.row-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row-title {
+  font-weight: 600;
+}
+
+.row-sub,
+.muted {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.journal-meta {
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 10px;
+  border-top: 1px solid #e6ede8;
+}
+
+.link-danger {
+  padding: 0;
+  font: inherit;
+  font-size: 12px;
+  color: #a02828;
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---- Toggle switch (a real checkbox, styled) ---- */
+.switch {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 22px;
+  margin: 0;
+  background: #b9c7be;
+  border-radius: 999px;
+  cursor: pointer;
+  appearance: none;
+  transition: background 0.15s;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.15s;
+}
+
+.switch:checked {
+  background: var(--brand);
+}
+
+.switch:checked::after {
+  transform: translateX(18px);
+}
+
+.switch:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.switch:focus-visible,
+.link-row:focus-visible,
+.link-danger:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ---- Tool links ---- */
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #e6ede8;
+  cursor: pointer;
+}
+
+.link-row:first-child {
+  border-top: 0;
+}
+
+.link-row:hover {
+  background: #eef4f0;
+}
+
+.link-row small {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.link-row > span[aria-hidden] {
+  font-size: 20px;
+  color: var(--muted);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 2px 4px 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }

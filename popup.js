@@ -3,11 +3,18 @@ const studyModeCheckbox = document.querySelector("#study-mode");
 const statusMessage = document.querySelector("#status");
 
 // Show the saved study mode preference.
+const statePill = document.querySelector("#state-pill");
+
 function showStatus(enabled) {
   statusMessage.textContent = enabled
     ? "Study mode preference: on."
     : "Study mode preference: off.";
+  statePill.textContent = enabled ? "On" : "Off";
+  statePill.dataset.on = String(enabled);
 }
+
+document.querySelector("#version").textContent =
+  "v" + chrome.runtime.getManifest().version;
 
 async function loadSettings() {
   try {
