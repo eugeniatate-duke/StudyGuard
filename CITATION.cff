@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use StudyGuard in your work, please cite it as below."
+title: "StudyGuard: a glass-box prompt coach for ChatGPT and Claude"
+type: software
+version: 1.1.0
+date-released: 2026-10-20
+authors:
+  - family-names: Tate
+    given-names: Eugenia
+    affiliation: Duke University
+license: MIT
+repository-code: "https://github.com/eugeniatate-duke/StudyGuard"
+abstract: >-
+  StudyGuard is a Chrome extension for ChatGPT and Claude. It scores, on the
+  student's own device, how much of their own thinking a prompt shows, pauses
+  prompts that only ask for the answer, and explains why with word-level
+  attributions, counterfactual advice and a Prompt Breakdown Map. The
+  repository includes a held-out evaluation, a red-team stress test, and a
+  comparison of occlusion, LIME and SHAP explanations.
+keywords:
+  - explainable AI
+  - responsible AI
+  - education
+  - Chrome extension
+  - interpretability

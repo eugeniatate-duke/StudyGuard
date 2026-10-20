@@ -25,13 +25,16 @@ Built for AIPI 590 (Explainable AI), Duke University, by Eugenia Tate.
 3. [How it works](#how-it-works)
 4. [Quick start](#quick-start)
 5. [Try it in 60 seconds](#try-it-in-60-seconds)
-6. [Results](#results)
-7. [Reproduce everything](#reproduce-everything)
-8. [Repository map](#repository-map)
-9. [Privacy and data](#privacy-and-data)
-10. [Limitations and responsible use](#limitations-and-responsible-use)
-11. [Documentation index](#documentation-index)
-12. [Credits, AI assistance and license](#credits-ai-assistance-and-license)
+6. [Troubleshooting](#troubleshooting)
+7. [Results](#results)
+8. [Reproduce everything](#reproduce-everything)
+9. [Repository map](#repository-map)
+10. [Privacy and data](#privacy-and-data)
+11. [Limitations and responsible use](#limitations-and-responsible-use)
+12. [Documentation index](#documentation-index)
+13. [References](#references)
+14. [How to cite](#how-to-cite)
+15. [Credits, AI assistance and license](#credits-ai-assistance-and-license)
 
 ---
 
@@ -96,10 +99,15 @@ flowchart LR
 
 **Requirements:** Google Chrome 116+. No build step, API key, account, dataset download or paid service is needed to *use* the extension.
 
+**Option A: download the ready-made zip (easiest).** Open the [latest release](https://github.com/eugeniatate-duke/StudyGuard/releases/latest), download `studyguard-v*.zip`, and unzip it. Then continue with step 2 below, choosing the unzipped folder.
+
+**Option B: from source.**
 1. Download or clone this repository.
 2. Open `chrome://extensions` and switch on **Developer mode**.
-3. Click **Load unpacked** and choose the repository folder (the one containing `manifest.json`).
-4. Open <https://chatgpt.com> or <https://claude.ai>, and click the StudyGuard icon to open the popup (it links to the side panel, journal and dashboard).
+3. Click **Load unpacked** and choose the folder that contains `manifest.json`.
+4. Open <https://chatgpt.com> or <https://claude.ai>, click the StudyGuard icon and switch on **Study mode** in the popup. A slim StudyGuard bar appears above the message box.
+
+To rebuild the zip yourself: `python scripts/package.py` (standard library only; writes `dist/studyguard-v<version>.zip`).
 
 To run the tests and evaluation you also need **Node.js 20+** (CI runs Node 20 and 22). The Python research pipeline needs **Python 3.10+** (see [Reproduce everything](#reproduce-everything)).
 
@@ -117,6 +125,17 @@ Type each prompt into ChatGPT or Claude and press Send.
 Open the side panel (popup, "Open Prompt Breakdown Map") to see the breakdown after a hold.
 
 ![Prompt Breakdown Map in the side panel](docs/images/side-panel.png)
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| No StudyGuard bar appears | Check that **Study mode** is on in the popup, you are on `chatgpt.com` or `claude.ai`, and the extension is enabled at `chrome://extensions`. Then reload the chat tab. |
+| Changes to the code have no effect | Click the reload arrow on the StudyGuard card at `chrome://extensions`, then reload the chat tab. |
+| "Put it in the chat box" does nothing | Some pages block scripted typing. StudyGuard then copies the request instead; paste it with Cmd+V or Ctrl+V and press Send. |
+| A prompt is held and you disagree | The scorer is advice, not a verdict. Click **Send anyway**, and see [limitations](docs/limitations-and-ethics.md). |
+| The side panel button does nothing | The Prompt Breakdown Map needs Chrome 116 or newer. Open it from the popup. |
+| Charts are empty | The dashboard only shows attempts recorded while study mode was on. |
 
 ## Results
 
@@ -188,6 +207,8 @@ StudyGuard/
 ├── README.md                You are here
 ├── LICENSE                  MIT license
 ├── .gitignore               Files Git should not track (caches, OS files, secrets)
+├── CITATION.cff             Citation metadata (GitHub shows a "Cite this repository" button)
+├── scripts/package.py       Builds the extension zip for release or the Chrome Web Store
 ├── icons/                   Logo (SVG source + 16/32/48/128 px PNGs used by the manifest)
 │
 ├── ── EXTENSION UI ───────────────────────────────────────────────────────
@@ -280,6 +301,26 @@ Read the full analysis of stakeholders, failure modes and misuse risks in [`docs
 | [`docs/counterfactual-results.md`](docs/counterfactual-results.md) | Are the "what to add" hints valid and minimal? |
 | [`docs/redteam-results.md`](docs/redteam-results.md) | Stress test: paraphrase, role-play, obfuscation, filler, over-flagging |
 | [`docs/limitations-and-ethics.md`](docs/limitations-and-ethics.md) | Stakeholders, risks, misuse, deployment |
+| [`docs/privacy-policy.md`](docs/privacy-policy.md) | What is stored, where, and why |
+| [`docs/store-listing.md`](docs/store-listing.md) | Chrome Web Store listing text, permissions and screenshot checklist |
+
+## References
+
+Full list with links is in [`docs/project-plan.md`](docs/project-plan.md#11-references). The works this project leans on most:
+
+- Bastani, H., et al. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. *PNAS, 122*, e2422633122.
+- Kazemitabaar, M., et al. (2023). Studying the effect of AI code generators on supporting novice learners in introductory programming. *CHI 2023*. <https://doi.org/10.1145/3544548.3580919>
+- Tao, S., Lan, M., Wang, M., & Li, H. (2026). Potential risks of generative artificial intelligence integration into K-12 education: A scoping review. *Computers and Education: Artificial Intelligence, 10*, 100561. <https://doi.org/10.1016/j.caeai.2026.100561>
+- Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why should I trust you?": Explaining the predictions of any classifier. *KDD 2016*.
+- Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *NeurIPS 30*.
+- Wachter, S., Mittelstadt, B., & Russell, C. (2018). Counterfactual explanations without opening the black box. *Harvard Journal of Law & Technology, 31*.
+- Doshi-Velez, F., & Kim, B. (2017). Towards a rigorous science of interpretable machine learning. arXiv:1702.08608.
+
+## How to cite
+
+GitHub's **Cite this repository** button (right-hand side of the repo page) uses [`CITATION.cff`](CITATION.cff). In plain text:
+
+> Tate, E. (2026). *StudyGuard: a glass-box prompt coach for ChatGPT and Claude* (v1.1.0) [Software]. https://github.com/eugeniatate-duke/StudyGuard
 
 ## Credits, AI assistance and license
 

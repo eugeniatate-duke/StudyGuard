@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "StudyGuard",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Explains, word by word, when a ChatGPT or Claude prompt asks for the answer instead of your own thinking.",
   "minimum_chrome_version": "116",
   "icons": {

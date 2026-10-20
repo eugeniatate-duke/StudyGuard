@@ -60,7 +60,7 @@ Helps students notice and add their own thinking to prompts sent to ChatGPT and 
 3. The Prompt Breakdown Map side panel (`docs/images/side-panel.png`)
 4. The analytics dashboard (`docs/images/sg-analytics.png`)
 5. The popup settings (`docs/images/popup.png`)
-Optional promo tile (440x280): the logo and the line "Know why your prompt was held."
+Ready-made files are in `docs/store-assets/` (five 1280x800 screenshots and a 440x280 promo tile).
 
 ## Review checklist
 - [ ] Zip the extension folder without `tests/`, `eval/`, `python/`, `train/`, `docs/`, `.git`, `.github`

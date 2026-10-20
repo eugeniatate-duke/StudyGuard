@@ -32,4 +32,15 @@ jobs:
         with:
           python-version: "3.10"
       - name: Byte-compile Python scripts (no packages needed)
-        run: python -m py_compile python/*.py train/*.py
+        run: python -m py_compile python/*.py train/*.py scripts/*.py
+
+  package:
+    name: Extension package builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Build the extension zip (fails if a referenced file is missing)
+        run: python scripts/package.py
