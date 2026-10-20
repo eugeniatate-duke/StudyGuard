@@ -1,0 +1,35 @@
+# Runs the automated tests on every push to main and on every pull request.
+# Nothing is installed: the JavaScript tests use only Node's built-in test runner.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  node-tests:
+    name: Node ${{ matrix.node }} tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run tests
+        run: node --test
+
+  python-syntax:
+    name: Python files compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Byte-compile Python scripts (no packages needed)
+        run: python -m py_compile python/*.py train/*.py

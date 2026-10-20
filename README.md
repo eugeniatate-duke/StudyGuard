@@ -1,5 +1,7 @@
 # StudyGuard
 
+[![tests](https://github.com/eugeniatate-duke/StudyGuard/actions/workflows/tests.yml/badge.svg)](https://github.com/eugeniatate-duke/StudyGuard/actions/workflows/tests.yml)
+
 **A Chrome extension that explains, in plain language, why a prompt to ChatGPT or Claude looks like "give me the answer" rather than "help me learn" - and coaches the student toward a better prompt.**
 
 Built for AIPI 590 (Explainable AI), Duke University, by Eugenia Tate.
@@ -87,7 +89,7 @@ flowchart LR
 3. Click **Load unpacked** and choose the repository folder (the one containing `manifest.json`).
 4. Open <https://chatgpt.com> or <https://claude.ai>, and click the StudyGuard icon to open the popup (it links to the side panel, journal and dashboard).
 
-To run the tests and evaluation you also need **Node.js 18+**. The Python research pipeline needs **Python 3.10+** (see [Reproduce everything](#reproduce-everything)).
+To run the tests and evaluation you also need **Node.js 20+** (CI runs Node 20 and 22). The Python research pipeline needs **Python 3.10+** (see [Reproduce everything](#reproduce-everything)).
 
 ## Try it in 60 seconds
 
@@ -132,7 +134,7 @@ Full details: [rules v1 vs v2](docs/v2-results.md), [model vs rules](docs/model-
 ## Reproduce everything
 
 ```bash
-# 1. Unit tests (Node 18+; no installs needed)
+# 1. Unit tests (Node 20+; no installs needed)
 node --test                                  # expect: tests 145, pass 145, fail 0
 
 # 2. Benchmarks (human labels live in eval/*.csv)
