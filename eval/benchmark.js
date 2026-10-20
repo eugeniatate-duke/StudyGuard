@@ -12,6 +12,8 @@
  *          heldout       = eval/heldout.csv + heldout_types.csv
  * --rules  v1 | v2 (default v2) | model. "model" uses the trained classifier in
  *          model/model.json (create it with: node train/train_model.js).
+ *          Add --model model.sklearn.json to use the scikit-learn model
+ *          (create it with: python3 python/train_sklearn.py).
  *          See the RULE SETS note in engine.js and model.js.
  *
  * Scores every labelled prompt with engine.js, prints a short summary, and
@@ -34,6 +36,7 @@ function flag(name, fallback) {
 const outPath = flag("--out", null);
 const setName = flag("--set", "dev");
 const ruleSet = flag("--rules", "v2");
+const modelFile = flag("--model", "model.json"); // which file in model/ (with --rules model)
 const FILES = {
   dev: ["prompts.csv", "prompt_types.csv"],
   heldout: ["heldout.csv", "heldout_types.csv"],
@@ -57,9 +60,10 @@ if (unlabelled.length) {
 
 let analyze;
 if (ruleSet === "model") {
-  const modelPath = path.join(__dirname, "..", "model", "model.json");
+  const modelPath = path.join(__dirname, "..", "model", modelFile);
   if (!fs.existsSync(modelPath)) {
-    console.error("model/model.json not found. Run: node train/train_model.js");
+    console.error("model/" + modelFile + " not found. Run: node train/train_model.js (model.json)" +
+      " or python3 python/train_sklearn.py (model.sklearn.json)");
     process.exit(1);
   }
   analyze = require("../model.js").createAnalyzer(JSON.parse(fs.readFileSync(modelPath, "utf8")));
@@ -71,7 +75,7 @@ const markdown = renderMarkdown(results, { threshold: Engine.ENGINE_CONFIG.passT
 
 const m = results.metrics;
 const show = (x) => (x.value === null ? "n/a" : Math.round(x.value * 100) + "% (" + x.k + "/" + x.n + ")");
-console.log("Set:", setName, "| rules:", ruleSet);
+console.log("Set:", setName, "| rules:", ruleSet + (ruleSet === "model" ? " (" + modelFile + ")" : ""));
 console.log("Prompts:", results.total, "| decided:", results.decided, "| UNSURE:", results.unsure);
 console.log("Accuracy: ", show(m.accuracy));
 console.log("Precision:", show(m.precision), "(held prompts that should be held)");
