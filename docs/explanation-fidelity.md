@@ -59,7 +59,7 @@ SHAP (exact for a linear model), occlusion and rule perturbation are determinist
 ## Limitations
 
 - These checks show consistency with the model, not that students understand or benefit; no user study was run.
-- Prompts are the project team's own dev/held-out prompts; short prompts have few words, so rankings are coarse.
+- Prompts are the dev and held-out prompts (drafted mostly by an AI assistant, not from real students); short prompts have few words, so rankings are coarse.
 - Deleting words can create ungrammatical text the model never saw; deletion-test numbers are indicative.
 - SHAP here uses the training prompts as background; a different background changes values (not the ranking much).
 - Prompts where rules and model tokens could not be aligned (e.g. accented letters) are skipped in rule-vs-model comparisons.
