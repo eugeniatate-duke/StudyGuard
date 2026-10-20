@@ -47,7 +47,7 @@ It is a **coaching nudge**, not an integrity detector. It should never be used t
 
 ## 4. Fairness and equity (not evaluated)
 
-The evaluation sets were written by one author, in English, and labelled by that author. No analysis was done across language background, dialect, disability, or writing style. Plausible harms that were **not** measured: students writing in a second language being held more often; terse prompts from students with different communication styles; students without a computer-science background not knowing what an "error log" or "attempt" should look like. Any real deployment would require a representative prompt collection and a subgroup analysis first.
+The evaluation sets were drafted mostly by an AI assistant (Claude), in English, and labelled by one person (the project author). No analysis was done across language background, dialect, disability, or writing style. Plausible harms that were **not** measured: students writing in a second language being held more often; terse prompts from students with different communication styles; students without a computer-science background not knowing what an "error log" or "attempt" should look like. Any real deployment would require a representative prompt collection and a subgroup analysis first.
 
 ## 5. Misuse risks
 
@@ -67,7 +67,7 @@ No network requests; no accounts; no analytics sent anywhere. The event log stor
 
 - Small samples: 36 decided held-out prompts and 79 decided dev prompts; confidence intervals are wide (e.g. rules v2 held-out accuracy 92%, interval 78-97%).
 - One annotator, no inter-rater agreement. Labels reflect one person's judgement; UNSURE prompts were excluded from scoring.
-- Prompts were written by the project author, not collected from students; they may not match real student language.
+- Prompts were drafted mostly by an AI assistant (with a few added by the author), not collected from students; they may not match real student language. The assistant also helped build the rules, so shared blind spots between prompts and rules are possible.
 - The dev set was used while designing rules v2, so its results are optimistic; the held-out set is the fair test and was not used to tune anything.
 - The trained model's training data are templates; random cross-validation was inflated (100%) compared with leave-one-category-out (about 67-70%).
 - Explanation-quality checks (agreement, deletion tests, stability) show consistency with the models, **not** usefulness to learners.
@@ -89,4 +89,4 @@ No network requests; no accounts; no analytics sent anywhere. The event log stor
 | **Privacy** | Local only; text never in the event log; journal opt-in |
 | **Fairness** | Acknowledged gap; not evaluated (section 4) |
 | **Accountability / honest reporting** | Held-out set, frozen labels, confidence intervals, error analysis, stated limits |
-| **Safety / robustness** | Fail-open design; evasion and gaming documented in section 3 (a fuller red-team write-up is future work) |
+| **Safety / robustness** | Fail-open design; evasion and gaming documented in section 3 (see `redteam-results.md`; a larger, independently written red-team set is future work) |

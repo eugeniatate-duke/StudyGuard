@@ -51,7 +51,7 @@ rules = more precise but only as good as the vocabulary we anticipated.
 ## Limitations
 
 - 36 decided held-out prompts; intervals are wide, and a few prompts change a percentage.
-- One annotator; prompts written by the project team, not real students.
+- One annotator; prompts drafted mostly by an AI assistant (not real students). The same assistant helped build the rules.
 - Training data is synthetic and templated; real student phrasing is more varied.
 - Model comparison reports one trained model with one threshold. No tuning on held-out was done.
 - A hybrid (e.g. hold only if rules and model agree) is a plausible improvement but must

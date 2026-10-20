@@ -1,6 +1,24 @@
 # StudyGuard: Evaluation Plan
 
-*v0.3 draft. Written before the ML and study work so the build answers fixed questions. Numeric targets are goals for judging results honestly, not promises. Items marked `[TODO]` need a decision.*
+*v1.0, as built. This plan was written (v0.3) before the ML and evaluation work so the build answered fixed questions. The status table below records what was delivered and what was not; the original sections are kept, each tagged with its status, so deviations are visible rather than hidden.*
+
+## 0. What was planned and what was delivered
+
+| ID | Planned | Status | Where the results are |
+|---|---|---|---|
+| E1 | Classifier benchmark | **Done**, scaled down: rules v1, v2 and a trained TF-IDF + logistic regression model (JavaScript and scikit-learn); majority and keyword baselines; 90-prompt dev set and 40-prompt held-out set; Wilson intervals; error analysis. Gradient boosting and transformer were **not** trained. | `docs/evaluation-results.md`, `docs/v2-results.md`, `docs/model-results.md`, `docs/error-analysis.md` |
+| E2 | Explanation fidelity, stability, agreement, counterfactual quality | **Done**: perturbation, exact SHAP, LIME (own implementation and the `lime` library) compared on rank agreement, deletion faithfulness and seed stability; JavaScript and Python parity tests; counterfactual validity and minimality. Insertion test and paraphrase-stability were **not** run. Actionability was not rated by people. | `docs/explanation-fidelity.md`, `docs/python-explanations.md`, `docs/counterfactual-results.md` |
+| E3 | Behavioural study | **Not carried out** (no participants). Protocol retained in section 5 for future work. | n/a |
+| E4 | Explanation usefulness survey and think-aloud | **Not carried out.** Protocol retained in section 6. | n/a |
+| E5 | Red-team | **Done at small scale**: 40 cases in six categories written by the AI assistant, not by students. | `docs/redteam-results.md` |
+
+**Other deviations from the original plan**
+
+- **One annotator.** A second annotator and Cohen's kappa were not obtained; labels reflect one person's judgement (UNSURE rows are excluded from scoring).
+- **Data size and origin.** Dev set 90 prompts (79 decided) and held-out set 40 (36 decided), drafted mostly by an AI assistant and labelled by the author; training set 400 template-generated prompts. The planned 600-1,000 examples, subject balance, classmate-contributed text, and a separate hand-written test set were not achieved. Prompts are therefore not real student text.
+- **Task definition.** Only T1 (question intent, as HOLD/PASS) was modelled. T2 (attempt engagement levels) was handled by rules (attempt present, length, variety), not a model.
+- **What ships.** The default decision-maker in the extension is rules v2, not the trained model, because the model wrongly held too many honest prompts on the held-out set.
+- **Slices.** Results are reported per prompt category, not per subject.
 
 ## 1. Purpose and scope
 
@@ -39,7 +57,7 @@ This plan defines how StudyGuard will be evaluated against the research question
 - **Quality control:** a second annotator labels at least 100 examples. Report Cohen's kappa and a confusion matrix between annotators. Disagreements are resolved by discussion, and the original labels are kept in the repo.
 - **Data statement:** sources, annotator count, label definitions, known gaps, consent and privacy handling.
 
-## 3. E1: Classifier benchmark (RQ1)
+## 3. E1: Classifier benchmark (RQ1) - STATUS: done, scaled down (see section 0)
 
 **Models compared**
 
@@ -57,7 +75,7 @@ This plan defines how StudyGuard will be evaluated against the research question
 
 **Decision rule for what ships.** Ship the linear model if its macro-F1 is within an agreed margin of the black box (target: within 0.05) or if the black box is not meaningfully better on the hand-written test set. Report the tradeoff either way.
 
-## 4. E2: Explanation evaluation (RQ2, RQ3)
+## 4. E2: Explanation evaluation (RQ2, RQ3) - STATUS: done (see section 0)
 
 All explanation methods are applied to the same held-out examples.
 
@@ -91,7 +109,7 @@ Counterfactuals search only over **actionable** inputs (the student's attempt: p
 
 Counterfactuals follow the "smallest change to obtain a different outcome" framing of Wachter et al. (2017/2018).
 
-## 5. E3: Behavioral study (RQ4)
+## 5. E3: Behavioral study (RQ4) - STATUS: NOT CARRIED OUT; proposed protocol for future work
 
 **Design.** Within-subjects, counterbalanced order. Each participant does two short study sessions with comparable problem sets: one in **plain ChatGPT** and one with **StudyGuard on**. `[TODO: decide participant count; target 6 to 10 classmates]`
 
@@ -112,14 +130,14 @@ Counterfactuals follow the "smallest change to obtain a different outcome" frami
 
 **Ethics.** Check with the instructor whether the course requires IRB review or an exemption for classroom projects `[TODO]`. Informed consent, voluntary participation, no personal identifiers, no collection of coursework from other classes, participants can withdraw and have their data deleted. The extension stores data locally; participants export their own logs.
 
-## 6. E4: Explanation usefulness (RQ4)
+## 6. E4: Explanation usefulness (RQ4) - STATUS: NOT CARRIED OUT; proposed protocol for future work
 
 - **Short survey** after the StudyGuard session (five-point Likert items): the explanation was understandable, helped me decide what to do next, made me trust the tool more or less, felt fair, felt intrusive. Items adapted from common XAI and usability scales `[TODO: choose and cite a scale]`.
 - **Think-aloud with three to five participants**: observe whether they actually use the word highlights and counterfactuals, or ignore them.
 - **Comprehension check**: ask participants to predict how the estimate would change if they edited their attempt in a given way, then compare with the model. This tests whether explanations support a correct mental model.
 - **Open comments**, coded thematically.
 
-## 7. E5: Red-team (RQ5)
+## 7. E5: Red-team (RQ5) - STATUS: done at small scale (see section 0)
 
 Course topic: red-teaming. Adversarial cases, each run through the classifiers and the unlock logic:
 
@@ -163,7 +181,7 @@ Stated now so results are not rationalized later. These are targets; missing the
 - Study materials (task sets, rubric, survey, consent text) in `docs/study/`.
 - No API keys, remote datasets or model downloads are required to run the extension; Python dependencies are needed only to retrain.
 
-## 11. Timeline
+## 11. Timeline (original plan; see section 0 and `docs/project-plan.md` section 9 for what was delivered)
 
 | Version | Evaluation work |
 |---|---|

@@ -44,7 +44,7 @@ expected to be inflated.
 
 - Small sample: 36 decided held-out prompts; intervals are wide.
 - One annotator, no inter-rater agreement; labels reflect one person's judgement.
-- Prompts were written by the project team, not collected from real students.
+- Prompts were drafted mostly by an AI assistant, not collected from real students; the same assistant helped build the rules, so shared blind spots are possible.
 - Dev results are optimistic because v2 was tuned on them. Held-out results are
   fair only while the held-out set stays untouched; the rules must not be tuned further on it.
 - Known unfixable by pattern rules: other languages beyond a few Spanish phrases,
