@@ -10,7 +10,9 @@
  *
  * --set    dev (default) = eval/prompts.csv + prompt_types.csv
  *          heldout       = eval/heldout.csv + heldout_types.csv
- * --rules  v1 | v2 (default v2). See the RULE SETS note in engine.js.
+ * --rules  v1 | v2 (default v2) | model. "model" uses the trained classifier in
+ *          model/model.json (create it with: node train/train_model.js).
+ *          See the RULE SETS note in engine.js and model.js.
  *
  * Scores every labelled prompt with engine.js, prints a short summary, and
  * (with --out) writes the full markdown report. Calculations live in
@@ -36,8 +38,8 @@ const FILES = {
   dev: ["prompts.csv", "prompt_types.csv"],
   heldout: ["heldout.csv", "heldout_types.csv"],
 };
-if (!FILES[setName] || !["v1", "v2"].includes(ruleSet)) {
-  console.error("Usage: node eval/benchmark.js [--set dev|heldout] [--rules v1|v2] [--out file.md]");
+if (!FILES[setName] || !["v1", "v2", "model"].includes(ruleSet)) {
+  console.error("Usage: node eval/benchmark.js [--set dev|heldout] [--rules v1|v2|model] [--out file.md]");
   process.exit(1);
 }
 
@@ -53,7 +55,17 @@ if (unlabelled.length) {
   process.exit(1);
 }
 
-const analyze = (prompt, options) => Engine.analyzePrompt(prompt, { ...options, ruleSet });
+let analyze;
+if (ruleSet === "model") {
+  const modelPath = path.join(__dirname, "..", "model", "model.json");
+  if (!fs.existsSync(modelPath)) {
+    console.error("model/model.json not found. Run: node train/train_model.js");
+    process.exit(1);
+  }
+  analyze = require("../model.js").createAnalyzer(JSON.parse(fs.readFileSync(modelPath, "utf8")));
+} else {
+  analyze = (prompt, options) => Engine.analyzePrompt(prompt, { ...options, ruleSet });
+}
 const results = evaluate(rows, typeMap, analyze);
 const markdown = renderMarkdown(results, { threshold: Engine.ENGINE_CONFIG.passThreshold });
 
