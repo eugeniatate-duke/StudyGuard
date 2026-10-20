@@ -50,7 +50,9 @@ learn. Ask:
    later, record the id, old label, new label and the reason in
    `docs/label-changes.md`, and report it in the write-up.
 
-## Second annotator (recommended)
+## Second annotator (recommended; NOT done in this project)
+
+*Status: no second annotator was available, so no inter-rater agreement is reported. The text below is the protocol that would be followed.*
 
 Ask one classmate to label rows **P01 to P30** using only this guide. In Step 14
 we report Cohen's kappa between your labels and theirs on those 30. If they

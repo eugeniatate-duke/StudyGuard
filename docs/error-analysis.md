@@ -1,5 +1,7 @@
 # Error analysis of the v1 rule-based scorer
 
+*Scope: this analysis covers the v1 rule set only. For what happened next see `docs/v2-results.md` (rules v2, held-out results), `docs/model-results.md` (trained model) and `docs/redteam-results.md` (adversarial cases).*
+
 Source: `docs/evaluation-results.md` (90 prompts: 79 labelled HOLD or PASS,
 11 UNSURE). Labels were made blind before any results existed. Numbers below
 are from the v1 scorer and are the baseline for any later version.
