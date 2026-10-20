@@ -1,10 +1,19 @@
-# Python tools for StudyGuard (training, evaluation, SHAP/LIME comparison).
-# The Chrome extension itself needs none of these; they are for the research pipeline.
-# Tested with Python 3.10+.
-numpy
-scipy
-scikit-learn
-shap
-lime
-matplotlib
-jupyter
+# StudyGuard Python tools: model training, SHAP/LIME comparison, figures, notebook.
+# The Chrome extension itself needs none of these.
+#
+# Tested with Python 3.10 and exactly these versions.
+# Recommended: use a fresh virtual environment so nothing else interferes:
+#     python3 -m venv .venv && source .venv/bin/activate
+#     pip install -r python/requirements.txt
+#
+# model/model.sklearn.json was first exported with a newer scikit-learn; retraining
+# here with 1.3.2 reproduces the saved weights to within 1e-6 (checked by
+# python/explain_shap_lime.py), so the pinned versions give the same model.
+jupyter==1.0.0
+lime==0.2.0.1
+matplotlib==3.7.4
+notebook==7.4.5
+numpy==1.26.2
+scikit-learn==1.3.2
+scipy==1.11.4
+shap==0.46.0

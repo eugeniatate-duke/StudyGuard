@@ -361,7 +361,7 @@ if (typeof module !== "undefined") {
     const instructions = document.createElement("p");
     instructions.id = "studyguard-instructions";
     instructions.textContent =
-      "Write your question in ChatGPT’s message box below. Use this space for your own thinking.";
+      "Write your question in " + site.name + "’s message box below. Use this space for your own thinking.";
 
     const label = document.createElement("label");
     label.htmlFor = "studyguard-attempt";
@@ -443,7 +443,7 @@ if (typeof module !== "undefined") {
 
     const previewLabel = document.createElement("label");
     previewLabel.htmlFor = "studyguard-preview";
-    previewLabel.textContent = "Request to copy into ChatGPT (editable)";
+    previewLabel.textContent = "Request to copy into " + site.name + " (editable)";
 
     const preview = document.createElement("textarea");
     preview.id = "studyguard-preview";
@@ -468,7 +468,7 @@ if (typeof module !== "undefined") {
         await navigator.clipboard.writeText(request);
 
         status.textContent =
-          "Copied. Paste it into ChatGPT’s input, review it, then send.";
+          "Copied. Paste it into " + site.name + "’s input, review it, then send.";
       } catch (error) {
         // Offer a manual alternative if Chrome blocks clipboard access.
         preview.focus();
@@ -517,7 +517,7 @@ if (typeof module !== "undefined") {
         previewSection.hidden = true;
         breakdown.hidden = true;
         preview.value = "";
-        status.textContent = "Type your question in ChatGPT’s input first.";
+        status.textContent = "Type your question in " + site.name + "’s input first.";
         return;
       }
 

@@ -62,3 +62,9 @@ test("model/model.json (if present) loads and predicts", { skip: !fs.existsSync(
   const p = Model.predict(m, "Solve problem 3 for me").pHold;
   assert.ok(p >= 0 && p <= 1);
 });
+
+test("termNames returns names in index order even for numeric-looking terms", () => {
+  const vocab = { "10": 0, apple: 1, "2": 2, zebra: 3 }; // Object.keys would list "2","10" first
+  const names = Model.termNames({ vocab, idf: [1, 1, 1, 1] });
+  assert.deepStrictEqual(names, ["10", "apple", "2", "zebra"]);
+});
