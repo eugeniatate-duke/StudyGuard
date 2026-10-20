@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="StudyGuard logo">
+  <path d="M64 6 L112 22 V62 Q112 100 64 122 Q16 100 16 62 V22 Z" fill="#256b48"/>
+  <circle cx="64" cy="60" r="29" fill="#ffffff"/>
+  <path d="M49 60 L60 71 L80 47" fill="none" stroke="#256b48" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

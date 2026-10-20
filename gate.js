@@ -43,7 +43,34 @@
     return { hold, analysis, reason };
   }
 
-  const api = { evaluateSubmission };
+  /**
+   * Remembers the hint requests that StudyGuard itself generated, so pasting
+   * one back into the chat is not scored again. Those requests contain words
+   * like "final answer" and "complete solution" ONLY because they tell the AI
+   * NOT to give them, and scoring them would hold the student's own hint
+   * request. Matching is exact (whitespace-normalised), so a student cannot
+   * unlock an answer request by borrowing a few of these phrases: any change
+   * to the text makes it an ordinary prompt again. Lives in page memory only.
+   */
+  function createHintRegistry() {
+    const known = new Set();
+    const norm = (text) => String(text || "").replace(/\s+/g, " ").trim();
+    return {
+      register(text) {
+        const t = norm(text);
+        if (t) known.add(t);
+      },
+      has(text) {
+        const t = norm(text);
+        return t !== "" && known.has(t);
+      },
+      clear() {
+        known.clear();
+      },
+    };
+  }
+
+  const api = { evaluateSubmission, createHintRegistry };
   if (isNode) module.exports = api;
   else globalThis.StudyGuardGate = api;
 })();

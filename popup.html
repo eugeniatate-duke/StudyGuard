@@ -3,40 +3,64 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StudyGuard settings</title>
+    <title>StudyGuard</title>
     <link rel="stylesheet" href="popup.css">
   </head>
 
   <body>
     <main>
-      <h1>StudyGuard</h1>
-      <p>Settings for your AI study companion.</p>
+      <header class="brand">
+        <img src="icons/icon48.png" alt="" width="40" height="40">
+        <div>
+          <h1>StudyGuard</h1>
+          <p class="tagline">A glass-box study coach for ChatGPT and Claude</p>
+        </div>
+        <span id="state-pill" class="pill" data-on="false">Off</span>
+      </header>
 
-      <label>
-        <!-- JavaScript enables this after loading the saved setting. -->
-        <input id="study-mode" type="checkbox" disabled>
-        Enable study mode
-      </label>
-      <label>
-        <input id="journal-opt-in" type="checkbox" disabled>
-        Keep a learning journal
-      </label>
-      <p>
-        Saves your questions and attempts on this device only, so you can
-        export them later. Off by default.
-        <span id="journal-count">0 entries</span>
-        <button id="clear-journal" type="button">Clear journal</button>
-      </p>
-      <p><button id="open-journal" type="button">Open Learning Journal (export)</button></p>
-      <p><button id="open-dashboard" type="button">Open Analytics Dashboard</button></p>
-      <button id="open-map" type="button">Open Prompt Breakdown Map</button>
+      <section class="card" aria-labelledby="h-study">
+        <label class="row switch-row" for="study-mode">
+          <span class="row-text">
+            <span id="h-study" class="row-title">Study mode</span>
+            <span class="row-sub">Shows a study panel above the message box and pauses prompts that ask for the answer.</span>
+          </span>
+          <!-- JavaScript enables this after loading the saved setting. -->
+          <input id="study-mode" class="switch" type="checkbox" role="switch" disabled>
+        </label>
+      </section>
 
-      <p id="status" role="status">Loading settings...</p>
+      <section class="card" aria-labelledby="h-journal">
+        <label class="row switch-row" for="journal-opt-in">
+          <span class="row-text">
+            <span id="h-journal" class="row-title">Learning journal</span>
+            <span class="row-sub">Saves your questions and attempts on this device only, so you can export them. Off by default.</span>
+          </span>
+          <input id="journal-opt-in" class="switch" type="checkbox" role="switch" disabled>
+        </label>
+        <div class="row journal-meta">
+          <span id="journal-count" class="muted">0 entries</span>
+          <button id="clear-journal" class="link-danger" type="button">Clear journal</button>
+        </div>
+      </section>
 
-      <p>
-        This setting is saved on this device. When on, a study panel appears
-        above the message box on ChatGPT or Claude.
-      </p>
+      <nav class="card links" aria-label="Tools">
+        <button id="open-map" class="link-row" type="button">
+          <span>Prompt Breakdown Map<small>See why a prompt was scored</small></span><span aria-hidden="true">›</span>
+        </button>
+        <button id="open-dashboard" class="link-row" type="button">
+          <span>Analytics Dashboard<small>Holds, sends and trends</small></span><span aria-hidden="true">›</span>
+        </button>
+        <button id="open-journal" class="link-row" type="button">
+          <span>Learning Journal<small>Preview, print or export to hand in</small></span><span aria-hidden="true">›</span>
+        </button>
+      </nav>
+
+      <p id="status" class="sr-only" role="status">Loading settings...</p>
+
+      <footer>
+        <span>Everything stays on this device. No account, no network calls.</span>
+        <span id="version" class="muted"></span>
+      </footer>
     </main>
     <script src="journal.js"></script>
     <script src="popup.js"></script>
