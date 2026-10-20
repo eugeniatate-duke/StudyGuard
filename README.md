@@ -6,6 +6,10 @@
 
 Built for AIPI 590 (Explainable AI), Duke University, by Eugenia Tate.
 
+**Chrome Web Store:** submitted for review (unlisted). Until it’s approved, install with the release zip following instructions below. 
+
+**Demo:** 
+
 ![StudyGuard holding a prompt and explaining why](docs/images/hero-soft-block.png)
 
 **Path 1: add your own thinking.** The prompt is held, the student adds an attempt, and it passes.
