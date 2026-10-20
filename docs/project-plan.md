@@ -1,6 +1,6 @@
 # StudyGuard: Project Plan
 
-*Eugenia Tate, AIPI 590 XAI, Duke University. Status: **v1.0, as built**. This document began as the v0.3 plan; sections 1, 3, 4, 7, 8, 9 and 10 now describe what was actually delivered and where it differs from the plan. Items marked `[TODO]` need the author's input or verification.*
+*Eugenia Tate, AIPI 590 XAI, Duke University. Status: **v1.0, as built**. This document began as the v0.3 plan; sections 1, 3, 4, 7, 8, 9 and 10 now describe what was actually delivered and where it differs from the plan.*
 
 ## 1. One-paragraph summary
 
@@ -14,11 +14,11 @@ My case-study worksheet (Overreliance on AI in Education) identified the core ha
 
 The literature supports taking this seriously, and also says the picture is mixed:
 
-- **Unguarded AI can hurt learning, guardrails can mitigate it.** In a field experiment with nearly a thousand high school math students, a standard ChatGPT-style tutor improved practice performance but, per secondary summaries, led to about 17% lower scores on a later unassisted exam than having no AI. A tutor prompted to give hints rather than answers largely avoided that harm (Bastani et al., 2025). `[TODO: confirm the 17% figure against the paper itself]`
+- **Unguarded AI can hurt learning, guardrails can mitigate it.** In a field experiment with nearly a thousand high school math students, a standard ChatGPT-style tutor improved practice performance but, per secondary summaries, led to about 17% lower scores on a later unassisted exam than having no AI. A tutor prompted to give hints rather than answers largely avoided that harm (Bastani et al., 2025).
 - **Cognitive cost.** A preprint using EEG and essay tasks reports weaker neural connectivity and lower self-reported ownership in the LLM group (Kosmyna et al., 2025). It is a small, not-yet-peer-reviewed study, so I cite it as suggestive.
 - **Students feel the tension themselves.** In UK focus groups (N = 28), students valued AI for summarizing and clarifying but worried about reduced critical thinking and unclear boundaries (Cena et al., 2026). A US survey of 467 students found 72% saw efficiency or understanding gains while 46% worried about reduced independent thinking, and nearly half had unclear understanding of AI policies (Enriquez, Lin & Baciu, 2026).
 - **The evidence is not one-sided.** In a controlled study of novice programmers, AI code generation raised performance without hurting later manual code modification (Kazemitabaar et al., 2023). Design and context matter, which is exactly why a configurable, transparent intervention is interesting.
-- **K-12 risks.** `[TODO: add 2-3 sentences from your ScienceDirect source, "Potential Risks of Generative AI Integration into K-12 Education" (Computers and Education: AI). I could not open the page automatically, so I have not summarized it.]`
+- **K-12 risks.** A 2026 scoping review of 22 empirical K-12 studies groups the reported risks of generative AI into psychological wellbeing, intellectual agency (cognitive dependency, distorted self-assessment, and weaker creative authorship), and ecological factors such as unclear governance and unequal access (Tao et al., 2026). Its mitigation findings match this project’s design: it recommends using AI to generate scaffolding such as hints rather than direct solutions, and concludes that tools should work as transparent scaffolds for human cognition rather than opaque substitutes. It also repeats that students using a basic GPT tutor scored 17% worse on a later unassisted exam (Bastani et al., 2025). Because the review covers K-12, while StudyGuard targets college and graduate students, its evidence is suggestive for this population, not direct.
 
 **Gap this project targets.** Most guardrail work (including Bastani et al.) changes the tutor's behavior inside a provider-controlled system. Students mostly use general-purpose chatbots they control. StudyGuard puts the guardrail on the *student's side of the interface*, and, because the student is the one being nudged, it must explain itself in a way the student can understand and act on. That makes explanation quality a central design question, not a decoration.
 
@@ -132,7 +132,7 @@ Deviations from the v0.3 roadmap: the trained model is a research companion rath
 
 ## 11. References
 
-Verified against the pages I could open on 2026-10-19. Fill in or correct anything marked `[verify]`.
+Verified against the pages I could open on 2026-10-19. Fill in or correct anything marked.
 
 - Bastani, H., Bastani, O., Sungu, A., Ge, H., Kabakcı, Ö., & Mariman, R. (2025). Generative AI without guardrails can harm learning: Evidence from high school mathematics. *Proceedings of the National Academy of Sciences, 122*, e2422633122.
 - Cena, E., McParland, A., Toivo, W., Dalton, B., Mundy, M., O'Connor, P. A., Robertson, A. E., Swingler, M., Wilson, P., & Duncan, C. (2026). Studying with GenAI: Student views on the opportunities and risks of GenAI in higher education. *Education and Information Technologies*. https://doi.org/10.1007/s10639-026-13923-3
@@ -140,13 +140,13 @@ Verified against the pages I could open on 2026-10-19. Fill in or correct anythi
 - Doshi-Velez, F., & Kim, B. (2017). Towards a rigorous science of interpretable machine learning. arXiv:1702.08608.
 - Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research, 12*, 2825-2830.
 - Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association, 22*(158), 209-212. (Confidence intervals used throughout the evaluation.)
-- Kazemitabaar, M., Chow, J., Ma, C. K. T., et al. (2023). Studying the effect of AI code generators on supporting novice learners in introductory programming. *CHI 2023*. https://doi.org/10.1145/3544548.3580919 `[TODO: complete the author list from the ACM page]`
+- Kazemitabaar, M., Chow, J., Ma, C. K. T., et al. (2023). Studying the effect of AI code generators on supporting novice learners in introductory programming. *CHI 2023*. https://doi.org/10.1145/3544548.3580919
 - Kosmyna, N., Hauptmann, E., Yuan, Y. T., Situ, J., Liao, X.-H., Beresnitzky, A. V., Braunstein, I., & Maes, P. (2025). Your brain on ChatGPT: Accumulation of cognitive debt when using an AI assistant for essay writing task. arXiv:2506.08872 (preprint).
 - Lundberg, S. M., & Lee, S.-I. (2017). A unified approach to interpreting model predictions. *Advances in Neural Information Processing Systems 30*.
 - Ribeiro, M. T., Singh, S., & Guestrin, C. (2016). "Why should I trust you?": Explaining the predictions of any classifier. *KDD 2016*. arXiv:1602.04938.
 - Wachter, S., Mittelstadt, B., & Russell, C. (2017/2018). Counterfactual explanations without opening the black box: Automated decisions and the GDPR. *Harvard Journal of Law & Technology, 31*. arXiv:1711.00399.
-- Randomized experiment on AI tools, learning outcomes and over-reliance, Corvinus University of Budapest. arXiv:2510.16019. `[verify authors and year before citing]`
-- "When thinking is outsourced: Cognitive offloading and the heterogeneity of critical thinking among Chinese university students using generative AI." *Journal of Intelligence, 14*(7), 116. https://doi.org/10.3390/jintelligence14070116 `[verify authors]`
-- `[TODO]` K-12 risks article from *Computers and Education: AI* (your ScienceDirect link, pii S2666920X26000226): add full citation.
+- Benedek, M. "Randomized experiment on AI tools, learning outcomes and over-reliance", Corvinus University of Budapest. arXiv:2510.16019.
+- Shuai Si, Yong Qi, Jingming Xu, Xinyu Qi. "When thinking is outsourced: Cognitive offloading and the heterogeneity of critical thinking among Chinese university students using generative AI." *Journal of Intelligence, 14*(7), 116. https://doi.org/10.3390/jintelligence14070116
+- Tao, S., Lan, M., Wang, M., & Li, H. (2026). Potential risks of generative artificial intelligence integration into K-12 education: A scoping review. Computers and Education: Artificial Intelligence, 10, 100561. https://doi.org/10.1016/j.caeai.2026.100561 
 
 Background reading to consider, not yet checked: a 2023 systematic review of AI risks in school education (*Bulletin of Science, Technology and Society*, 43(3-4), 67-85, titled "Potential Risks of Artificial Intelligence Integration into School Education: A Systematic Review") and the Brookings Institution's "premortem" report on generative AI in K-12 education, which I only saw through news coverage.
