@@ -55,14 +55,13 @@ Helps students notice and add their own thinking to prompts sent to ChatGPT and 
 - Certify: not sold, not used for unrelated purposes, not used for creditworthiness.
 
 ## Screenshots to upload (1280x800 or 640x400, up to 5)
-1. A held prompt with red words and the "Hold on" card (`docs/images/hero-soft-block.png`, retake after this UI update)
-2. The slim collapsed bar above the message box
-3. The Prompt Breakdown Map side panel (`docs/images/side-panel-breakdown.png`)
-4. The analytics dashboard (`docs/images/analytics-dash.png`)
-5. The popup settings
+1. A held prompt with red words and the "Hold on" card (`docs/images/hero-soft-block.png`)
+2. The slim collapsed bar above the message box (`docs/images/collapsed-bar.png`)
+3. The Prompt Breakdown Map side panel (`docs/images/side-panel.png`)
+4. The analytics dashboard (`docs/images/sg-analytics.png`)
+5. The popup settings (`docs/images/popup.png`)
 Optional promo tile (440x280): the logo and the line "Know why your prompt was held."
 
 ## Review checklist
-- [ ] Retake screenshots with the new panel
 - [ ] Zip the extension folder without `tests/`, `eval/`, `python/`, `train/`, `docs/`, `.git`, `.github`
 - [ ] Confirm the manifest version matches the release tag
