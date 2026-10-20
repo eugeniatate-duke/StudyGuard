@@ -8,7 +8,9 @@ Built for AIPI 590 (Explainable AI), Duke University, by Eugenia Tate.
 
 **Chrome Web Store:** submitted for review (unlisted). Until it’s approved, install with the release zip following instructions below. 
 
-**Demo:** 
+**Demo:**  https://youtu.be/sb-Ayx-1Xmo 
+
+Extended Demo version: https://drive.google.com/file/d/1q7Jf2yLfh2uTzSq7M7439DefPd33fcM2/view?usp=sharing 
 
 ![StudyGuard holding a prompt and explaining why](docs/images/hero-soft-block.png)
 
